@@ -1,5 +1,5 @@
 <template>
-  <v-content class="grey lighten-3">
+  <v-content class="grey darken-4">
     <div id="core-view">
       <v-fade-transition mode="out-in">
         <router-view />
@@ -11,10 +11,9 @@
 <script>
   export default {
     name: 'CoreView',
-
     metaInfo () {
       return {
-        title: 'Vue Material Dashboard by CreativeTim',
+        title: 'LSPD CHillOut Project',
       }
     },
   }

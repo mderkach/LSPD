@@ -3,6 +3,97 @@
     <v-row>
       <v-col
         cols="12"
+        lg="4"
+      >
+        <material-card
+          color="blue lighten-1"
+          title="Поиск по имени"
+          flat
+          full-width
+        >
+          <v-row>
+            <v-col
+              cols="5"
+            >
+              <v-text-field
+                label="Имя"
+              />
+            </v-col>
+            <v-col
+              cols="5"
+            >
+              <v-text-field
+                label="Фамилия"
+              />
+            </v-col>
+            <v-col
+              cols="2"
+            >
+              <v-btn color="secondary">
+                Найти
+              </v-btn>
+            </v-col>
+          </v-row>
+        </material-card>
+      </v-col>
+      <v-col
+        cols="12"
+        lg="4"
+      >
+        <material-card
+          color="blue lighten-1"
+          title="Поиск по номеру телефона"
+          flat
+          full-width
+        >
+          <v-row>
+            <v-col
+              cols="10"
+            >
+              <v-text-field
+                label="Номер телефона"
+              />
+            </v-col>
+            <v-col
+              cols="2"
+            >
+              <v-btn color="secondary">
+                Найти
+              </v-btn>
+            </v-col>
+          </v-row>
+        </material-card>
+      </v-col>
+      <v-col
+        cols="12"
+        lg="4"
+      >
+        <material-card
+          color="blue lighten-1"
+          title="Поиск ТС"
+          flat
+          full-width
+        >
+          <v-row>
+            <v-col
+              cols="10"
+            >
+              <v-text-field
+                label="Номер ТС"
+              />
+            </v-col>
+            <v-col
+              cols="2"
+            >
+              <v-btn color="secondary">
+                Найти
+              </v-btn>
+            </v-col>
+          </v-row>
+        </material-card>
+      </v-col>
+      <v-col
+        cols="12"
         lg="6"
       >
         <material-card
