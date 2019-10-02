@@ -4,7 +4,7 @@
     fluid
   >
     <v-row justify="center">
-       <v-col
+      <v-col
         cols="12"
         lg="4"
       >
@@ -112,8 +112,7 @@
             :headers="result.headers"
             :items="result.items"
             hide-default-footer
-          >
-          </v-data-table>
+          />
         </material-card>
       </v-col>
     </v-row>

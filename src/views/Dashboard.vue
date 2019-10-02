@@ -28,7 +28,7 @@
             </v-col>
           </v-row>
           <v-row>
-             <v-col
+            <v-col
               cols="12"
             >
               <v-btn color="secondary">
@@ -58,7 +58,7 @@
             </v-col>
           </v-row>
           <v-row>
-             <v-col
+            <v-col
               cols="12"
             >
               <v-btn color="secondary">
@@ -88,7 +88,7 @@
             </v-col>
           </v-row>
           <v-row>
-             <v-col
+            <v-col
               cols="12"
             >
               <v-btn color="secondary">

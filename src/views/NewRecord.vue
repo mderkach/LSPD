@@ -1,0 +1,135 @@
+<template>
+  <v-container
+    class="fill-height"
+    fluid
+  >
+    <v-row justify="center">
+      <v-col
+        cols="10"
+      >
+        <material-card
+          color="#27f"
+          title="Новая запись"
+          flat
+          full-width
+        >
+          <v-row>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Имя"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Фамилия"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Возраст"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Нарушение"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Срок"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Дата"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Ведомство"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="6"
+            >
+              <v-text-field
+                label="Код нарушения"
+                outlined
+                color="#27f"
+                clearable
+              />
+            </v-col>
+            <v-col
+              cols="12"
+            >
+              <v-textarea
+                outlined
+                label="Описание нарушения"
+                clearable
+                full-width
+                auto-grow
+                color="#27f"
+              />
+            </v-col>
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                block
+                color="#27f"
+                dark
+              >
+                Добавить
+              </v-btn>
+            </v-col>
+          </v-row>
+        </material-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+
+      }
+    },
+  }
+</script>

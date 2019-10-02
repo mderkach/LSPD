@@ -45,4 +45,9 @@ export default [
     name: 'Поиск личности',
     view: 'SearchUser',
   },
+  {
+    path: '/newrecord',
+    name: 'Новая запись',
+    view: 'NewRecord',
+  },
 ]

@@ -53,7 +53,7 @@
     mapState,
   } from 'vuex'
   // eslint-disable-next-line
-  import { mdiFolderAccount, mdiCarMultiple } from '@mdi/js'
+  import { mdiFolderAccount, mdiAccountCardDetails } from '@mdi/js'
 
   export default {
     props: {
@@ -75,9 +75,9 @@
           text: 'Поиск личности',
         },
         {
-          to: '#',
-          icon: 'mdi-car-multiple',
-          text: 'Поиск ТС',
+          to: '/newrecord',
+          icon: 'mdi-account-card-details',
+          text: 'Новое дело',
         },
         {
           to: '#',
