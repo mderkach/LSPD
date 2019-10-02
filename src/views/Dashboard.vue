@@ -13,21 +13,23 @@
         >
           <v-row>
             <v-col
-              cols="5"
+              cols="6"
             >
               <v-text-field
                 label="Имя"
               />
             </v-col>
             <v-col
-              cols="5"
+              cols="6"
             >
               <v-text-field
                 label="Фамилия"
               />
             </v-col>
-            <v-col
-              cols="2"
+          </v-row>
+          <v-row>
+             <v-col
+              cols="12"
             >
               <v-btn color="secondary">
                 Найти
@@ -48,14 +50,16 @@
         >
           <v-row>
             <v-col
-              cols="10"
+              cols="12"
             >
               <v-text-field
                 label="Номер телефона"
               />
             </v-col>
-            <v-col
-              cols="2"
+          </v-row>
+          <v-row>
+             <v-col
+              cols="12"
             >
               <v-btn color="secondary">
                 Найти
@@ -76,14 +80,16 @@
         >
           <v-row>
             <v-col
-              cols="10"
+              cols="12"
             >
               <v-text-field
                 label="Номер ТС"
               />
             </v-col>
-            <v-col
-              cols="2"
+          </v-row>
+          <v-row>
+             <v-col
+              cols="12"
             >
               <v-btn color="secondary">
                 Найти
@@ -158,6 +164,11 @@
               text: 'Номер телефона',
               value: 'phone',
             },
+            {
+              sortable: false,
+              text: 'Статус',
+              value: 'status',
+            },
           ],
           items: [
             {
@@ -165,12 +176,14 @@
               name: 'Dakota Rice',
               age: '34',
               phone: '99-999',
+              status: 'Пропала',
             },
             {
               id: 2,
               name: 'Dakota Rice',
               age: '34',
               phone: '99-999',
+              status: 'Особо опасен',
             },
           ],
         },
