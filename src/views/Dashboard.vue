@@ -310,8 +310,10 @@
           })
       },
       findByPhone () {
+        let self = this
         let target = this.searchByPhone
         let phone = target.phone
+        let match = []
         axios.get('http://194.87.144.130:3000/api/users')
           .then(function (response) {
             let responseData = response
@@ -320,7 +322,28 @@
                 return item.phone_number === phone
               }
             })
-            console.log(phones)
+            phones.forEach((item, index) => {
+              let name = item.firstname
+              let surname = item.lastname
+              let age = item.dateofbirth
+              let phone = item.phone_number
+              let id = index + 1
+
+              let suspect = {
+                id,
+                name,
+                surname,
+                age,
+                phone,
+                status,
+              }
+
+              match.push(suspect)
+            })
+            self.$router.push({
+              name: 'Поиск личности',
+              params: { items: match },
+            })
           })
           .catch(function (error) {
             console.log(error)

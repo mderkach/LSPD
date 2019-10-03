@@ -121,71 +121,74 @@
 
 <script>
   export default {
-    data () {
-      return {
-        result: {
-          headers: [
-            {
-              sortable: false,
-              text: 'ID',
-              value: 'id',
-            },
-            {
-              sortable: false,
-              text: 'Имя',
-              value: 'name',
-            },
-            {
-              sortable: false,
-              text: 'Фамилия',
-              value: 'surname',
-            },
-            {
-              sortable: false,
-              text: 'Возраст',
-              value: 'age',
-            },
-            {
-              sortable: false,
-              text: 'Номер телефона',
-              value: 'phone',
-            },
-            {
-              sortable: false,
-              text: 'Номер ТС',
-              value: 'vehicle',
-            },
-            {
-              sortable: false,
-              text: 'Собственность',
-              value: 'property',
-            },
-            {
-              sortable: false,
-              text: 'Профессия',
-              value: 'profession',
-            },
-            {
-              sortable: false,
-              text: 'Статус',
-              value: 'status',
-            },
-          ],
-          items: [
-            {
-              id: 1,
-              name: 'Ugly',
-              surname: 'Mazafaker',
-              age: 45,
-              phone: 9379992,
-              vehicle: 'BAGUVIX',
-              property: 'ASD QWE',
-              profession: 'Unemployed',
-              status: 'Не в розыске',
-            },
-          ],
+    props: {
+      result: {
+        type: [Object, Array],
+        default: function () {
+          return {
+            headers: [
+              {
+                sortable: false,
+                text: 'ID',
+                value: 'id',
+              },
+              {
+                sortable: false,
+                text: 'Имя',
+                value: 'name',
+              },
+              {
+                sortable: false,
+                text: 'Фамилия',
+                value: 'surname',
+              },
+              {
+                sortable: false,
+                text: 'Возраст',
+                value: 'age',
+              },
+              {
+                sortable: false,
+                text: 'Номер телефона',
+                value: 'phone',
+              },
+              {
+                sortable: false,
+                text: 'Номер ТС',
+                value: 'vehicle',
+              },
+              {
+                sortable: false,
+                text: 'Собственность',
+                value: 'property',
+              },
+              {
+                sortable: false,
+                text: 'Профессия',
+                value: 'profession',
+              },
+              {
+                sortable: false,
+                text: 'Статус',
+                value: 'status',
+              },
+            ],
+            items: [
+              // {
+              //   id: 1,
+              //   name: 'Ugly',
+              //   surname: 'Mazafaker',
+              //   age: 45,
+              //   phone: 9379992,
+              //   vehicle: 'BAGUVIX',
+              //   property: 'ASD QWE',
+              //   profession: 'Unemployed',
+              //   status: 'Не в розыске',
+              // },
+            ],
+          }
         },
-      }
+      },
     },
   }
 </script>

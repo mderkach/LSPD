@@ -44,6 +44,7 @@ export default [
     path: '/searchuser',
     name: 'Поиск личности',
     view: 'SearchUser',
+    props: true,
   },
   {
     path: '/newrecord',
