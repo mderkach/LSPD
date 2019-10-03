@@ -11,31 +11,38 @@
           flat
           full-width
         >
-          <v-row>
-            <v-col
-              cols="6"
-            >
-              <v-text-field
-                label="Имя"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-            >
-              <v-text-field
-                label="Фамилия"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-            >
-              <v-btn color="secondary">
-                Найти
-              </v-btn>
-            </v-col>
-          </v-row>
+          <v-form>
+            <v-row>
+              <v-col
+                cols="6"
+              >
+                <v-text-field
+                  v-model="searchByName.name"
+                  label="Имя"
+                />
+              </v-col>
+              <v-col
+                cols="6"
+              >
+                <v-text-field
+                  v-model="searchByName.surname"
+                  label="Фамилия"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  color="secondary"
+                  @click="findByName"
+                >
+                  Найти
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </material-card>
       </v-col>
       <v-col
@@ -48,24 +55,30 @@
           flat
           full-width
         >
-          <v-row>
-            <v-col
-              cols="12"
-            >
-              <v-text-field
-                label="Номер телефона"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-            >
-              <v-btn color="secondary">
-                Найти
-              </v-btn>
-            </v-col>
-          </v-row>
+          <v-form>
+            <v-row>
+              <v-col
+                cols="12"
+              >
+                <v-text-field
+                  v-model="searchByPhone.phone"
+                  label="Номер телефона"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  color="secondary"
+                  @click="findByPhone"
+                >
+                  Найти
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </material-card>
       </v-col>
       <v-col
@@ -230,6 +243,13 @@
             },
           ],
         },
+        searchByName: {
+          name: '',
+          surname: '',
+        },
+        searchByPhone: {
+          phone: '',
+        },
       }
     },
     mounted () {
@@ -263,6 +283,44 @@
 
               mwlist.push(suspect)
             })
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      },
+      findByName () {
+        let target = this.searchByName
+        let name = target.name
+        let surname = target.surname
+        axios.get('http://194.87.144.130:3000/api/users')
+          .then(function (response) {
+            let responseData = response
+            let names = responseData.data.filter(item => {
+              if (name) {
+                return item.firstname === name
+              }
+              if (surname) {
+                return item.lastname === surname
+              }
+            })
+            console.log(names)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      },
+      findByPhone () {
+        let target = this.searchByPhone
+        let phone = target.phone
+        axios.get('http://194.87.144.130:3000/api/users')
+          .then(function (response) {
+            let responseData = response
+            let phones = responseData.data.filter(item => {
+              if (phone) {
+                return item.phone_number === phone
+              }
+            })
+            console.log(phones)
           })
           .catch(function (error) {
             console.log(error)
