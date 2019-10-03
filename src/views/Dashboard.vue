@@ -112,7 +112,7 @@
           <v-data-table
             :headers="mostWanted.headers"
             :items="mostWanted.items"
-            hide-default-footer
+            :items-per-page="5"
           />
         </material-card>
       </v-col>
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     data () {
       return {
@@ -156,6 +157,11 @@
             },
             {
               sortable: false,
+              text: 'Фамилия',
+              value: 'surname',
+            },
+            {
+              sortable: false,
               text: 'Возраст',
               value: 'age',
             },
@@ -170,22 +176,7 @@
               value: 'status',
             },
           ],
-          items: [
-            {
-              id: 5,
-              name: 'Dakota Rice',
-              age: '34',
-              phone: '99-999',
-              status: 'Пропала',
-            },
-            {
-              id: 2,
-              name: 'Dakota Rice',
-              age: '34',
-              phone: '99-999',
-              status: 'Особо опасен',
-            },
-          ],
+          items: [],
         },
         fee: {
           headers: [
@@ -241,9 +232,41 @@
         },
       }
     },
+    mounted () {
+      this.getMostWanted()
+    },
     methods: {
       complete (index) {
         this.list[index] = !this.list[index]
+      },
+      getMostWanted () {
+        let mwlist = this.mostWanted.items
+        axios.get('http://194.87.144.130:3000/api/users')
+          .then(function (response) {
+            let responseData = response
+            responseData.data.forEach((item, index) => {
+              let name = item.firstname
+              let surname = item.lastname
+              let age = item.dateofbirth
+              let phone = item.phone_number
+              let id = index + 1
+              let status = 'Не в розыске'
+
+              let suspect = {
+                id,
+                name,
+                surname,
+                age,
+                phone,
+                status,
+              }
+
+              mwlist.push(suspect)
+            })
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       },
     },
   }
