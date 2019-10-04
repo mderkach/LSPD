@@ -147,6 +147,33 @@
           />
         </material-card>
       </v-col>
+
+      <v-snackbar
+        v-model="snackbar"
+        :bottom="bottom"
+        :color="color"
+        :left="left"
+        :right="right"
+        :top="top"
+        :timeout="900000"
+        dark
+      >
+        <v-icon
+          color="white"
+          class="mr-3"
+        >
+          mdi-bell-plus
+        </v-icon>
+        <div>Ошибка! Данные не найдены</div>
+        <v-btn
+          icon
+          @click="snackbar = false"
+        >
+          <v-icon>
+            mdi-close-circle
+          </v-icon>
+        </v-btn>
+      </v-snackbar>
     </v-row>
   </v-container>
 </template>
@@ -250,6 +277,19 @@
         searchByPhone: {
           phone: '',
         },
+        color: null,
+        colors: [
+          'purple',
+          'info',
+          'success',
+          'warning',
+          'error',
+        ],
+        top: true,
+        bottom: false,
+        left: false,
+        right: false,
+        snackbar: false,
       }
     },
     mounted () {
@@ -289,9 +329,11 @@
           })
       },
       findByName () {
+        let self = this
         let target = this.searchByName
         let name = target.name
         let surname = target.surname
+        let match = []
         axios.get('http://194.87.144.130:3000/api/users')
           .then(function (response) {
             let responseData = response
@@ -303,7 +345,33 @@
                 return item.lastname === surname
               }
             })
-            console.log(names)
+
+            names.forEach((item, index) => {
+              let name = item.firstname
+              let surname = item.lastname
+              let age = item.dateofbirth
+              let phone = item.phone_number
+              let id = index + 1
+
+              let suspect = {
+                id,
+                name,
+                surname,
+                age,
+                phone,
+                status,
+              }
+
+              match.push(suspect)
+            })
+            self.$store.commit('SET_USER', match)
+            if (match.length > 0) {
+              self.$router.push({
+                name: 'Поиск личности',
+              })
+            } else {
+              self.snack('top', 'error')
+            }
           })
           .catch(function (error) {
             console.log(error)
@@ -340,14 +408,33 @@
 
               match.push(suspect)
             })
-            self.$router.push({
-              name: 'Поиск личности',
-              params: { items: match },
-            })
+            self.$store.commit('SET_USER', match)
+            if (match.length > 0) {
+              self.$router.push({
+                name: 'Поиск личности',
+              })
+            } else {
+              self.snack('top', 'error')
+            }
           })
           .catch(function (error) {
             console.log(error)
           })
+      },
+      snack (...args) {
+        console.log(args)
+        this.top = false
+        this.bottom = false
+        this.left = false
+        this.right = false
+
+        for (const loc of args) {
+          this[loc] = true
+        }
+
+        this.color = args[args.length - 1]
+
+        this.snackbar = true
       },
     },
   }
