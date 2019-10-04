@@ -299,6 +299,15 @@
       complete (index) {
         this.list[index] = !this.list[index]
       },
+      getUsers () {
+        return axios.get('http://194.87.144.130:3000/api/users')
+      },
+      getVehicles () {
+        return axios.get('http://194.87.144.130:3000/api/owned_vehicles')
+      },
+      getProperties () {
+        return axios.get('http://194.87.144.130:3000/api/owned_properties')
+      },
       getMostWanted () {
         let mwlist = this.mostWanted.items
         axios.get('http://194.87.144.130:3000/api/users')
@@ -334,10 +343,14 @@
         let name = target.name
         let surname = target.surname
         let match = []
-        axios.get('http://194.87.144.130:3000/api/users')
-          .then(function (response) {
-            let responseData = response
-            let names = responseData.data.filter(item => {
+
+        axios.all([self.getUsers(), self.getVehicles(), self.getProperties()])
+          .then(axios.spread(function (users, vehicles, properties) {
+            let usersData = users.data
+            let vehiclesData = vehicles.data
+            let propertiesData = properties.data
+
+            let names = usersData.filter(item => {
               if (name) {
                 return item.firstname === name
               }
@@ -347,23 +360,57 @@
             })
 
             names.forEach((item, index) => {
+              let steamID = item.identifier
+              let id = index + 1
               let name = item.firstname
               let surname = item.lastname
               let age = item.dateofbirth
               let phone = item.phone_number
-              let id = index + 1
+              let vehicles = vehiclesData.filter(item => {
+                if (item.owner === steamID) {
+                  return item
+                }
+              })
+              let vehiclePlates = []
+              let vehicle = ''
+              vehicles.forEach(item => {
+                vehiclePlates.push(item.plate)
+                vehicle = vehiclePlates.toString()
+              })
+
+              if (vehicles.length == 0) {
+                vehicle = 'Нет данных'
+              }
+
+              let profession = item.job
+              let properties = propertiesData.filter(item => {
+                if (item.owner === steamID) {
+                  return item
+                }
+              })
+              let propertyAdresses = []
+              let property = ''
+              properties.forEach(item => {
+                propertyAdresses.push(item.name)
+                property = propertyAdresses.toString()
+              });
+
 
               let suspect = {
+                steamID,
                 id,
                 name,
                 surname,
                 age,
                 phone,
-                status,
+                vehicle,
+                profession,
+                property
               }
 
               match.push(suspect)
             })
+
             self.$store.commit('SET_USER', match)
             if (match.length > 0) {
               self.$router.push({
@@ -372,42 +419,79 @@
             } else {
               self.snack('top', 'error')
             }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+
+          }))
       },
       findByPhone () {
         let self = this
         let target = this.searchByPhone
         let phone = target.phone
         let match = []
-        axios.get('http://194.87.144.130:3000/api/users')
-          .then(function (response) {
-            let responseData = response
-            let phones = responseData.data.filter(item => {
+
+        axios.all([self.getUsers(), self.getVehicles(), self.getProperties()])
+          .then(axios.spread(function (users, vehicles, properties) {
+            let usersData = users.data
+            let vehiclesData = vehicles.data
+            let propertiesData = properties.data
+
+            let phones = users.filter(item => {
               if (phone) {
                 return item.phone_number === phone
               }
             })
+
             phones.forEach((item, index) => {
+              let steamID = item.identifier
+              let id = index + 1
               let name = item.firstname
               let surname = item.lastname
               let age = item.dateofbirth
               let phone = item.phone_number
-              let id = index + 1
+              let vehicles = vehiclesData.filter(item => {
+                if (item.owner === steamID) {
+                  return item
+                }
+              })
+              let vehiclePlates = []
+              let vehicle = ''
+              vehicles.forEach(item => {
+                vehiclePlates.push(item.plate)
+                vehicle = vehiclePlates.toString()
+              })
+
+              if (vehicles.length == 0) {
+                vehicle = 'Нет данных'
+              }
+
+              let profession = item.job
+              let properties = propertiesData.filter(item => {
+                if (item.owner === steamID) {
+                  return item
+                }
+              })
+              let propertyAdresses = []
+              let property = ''
+              properties.forEach(item => {
+                propertyAdresses.push(item.name)
+                property = propertyAdresses.toString()
+              });
+
 
               let suspect = {
+                steamID,
                 id,
                 name,
                 surname,
                 age,
                 phone,
-                status,
+                vehicle,
+                profession,
+                property
               }
 
               match.push(suspect)
             })
+
             self.$store.commit('SET_USER', match)
             if (match.length > 0) {
               self.$router.push({
@@ -416,10 +500,8 @@
             } else {
               self.snack('top', 'error')
             }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+
+          }))
       },
       snack (...args) {
         console.log(args)
