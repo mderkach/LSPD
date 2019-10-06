@@ -10,37 +10,6 @@ export default [
     view: 'Dashboard',
   },
   {
-    path: '/user-profile',
-    name: 'User Profile',
-    view: 'UserProfile',
-  },
-  {
-    path: '/table-list',
-    name: 'Table List',
-    view: 'TableList',
-  },
-  {
-    path: '/typography',
-    view: 'Typography',
-  },
-  {
-    path: '/icons',
-    view: 'Icons',
-  },
-  {
-    path: '/maps',
-    view: 'Maps',
-  },
-  {
-    path: '/notifications',
-    view: 'Notifications',
-  },
-  {
-    path: '/upgrade',
-    name: 'Upgrade to PRO',
-    view: 'Upgrade',
-  },
-  {
     path: '/searchuser',
     name: 'Поиск личности',
     view: 'SearchUser',
@@ -50,5 +19,10 @@ export default [
     path: '/newrecord',
     name: 'Новая запись',
     view: 'NewRecord',
+  },
+  {
+    path: '/archive',
+    name: 'Архив',
+    view: 'Archive',
   },
 ]

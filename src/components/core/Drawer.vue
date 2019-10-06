@@ -80,7 +80,7 @@
           text: 'Новое дело',
         },
         {
-          to: '#',
+          to: '/archive',
           icon: 'mdi-folder-account',
           text: 'Архив',
         },

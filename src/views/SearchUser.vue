@@ -125,9 +125,48 @@
             :headers="foundedUsers.headers"
             :items="foundedUsers.users"
             hide-default-footer
-          />
+          >
+            <template v-slot:item.action="{ user }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="my-1"
+                    color="error"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon
+                      small
+                    >
+                      mdi-new-box
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Новая запись</span>
+              </v-tooltip>
+              <v-divider />
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="my-1"
+                    color="warning"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon
+                      small
+                    >
+                      mdi-alert
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Установить статус</span>
+              </v-tooltip>
+            </template>
+          </v-data-table>
         </material-card>
       </v-col>
+
       <v-snackbar
         v-model="snackbar"
         :bottom="bottom"
@@ -160,6 +199,8 @@
 
 <script>
   import axios from 'axios'
+  // eslint-disable-next-line
+  import { mdiNewBox, mdiAlert } from '@mdi/js'
 
   export default {
     data () {
@@ -167,16 +208,19 @@
         foundedUsers: {
           headers: [
             {
+              align: 'center',
               sortable: false,
               text: 'ID',
               value: 'id',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Имя',
               value: 'name',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Фамилия',
               value: 'surname',
@@ -187,44 +231,43 @@
               value: 'age',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Номер телефона',
               value: 'phone',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Номер ТС',
               value: 'vehicle',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Собственность',
               value: 'property',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Профессия',
               value: 'profession',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Статус',
               value: 'status',
             },
+            {
+              align: 'center',
+              sortable: false,
+              text: 'Действия',
+              value: 'action',
+            },
           ],
-          users: [
-            // {
-            //   id: 1,
-            //   name: 'Ugly',
-            //   surname: 'Mazafaker',
-            //   age: 45,
-            //   phone: 9379992,
-            //   vehicle: 'BAGUVIX',
-            //   property: 'ASD QWE',
-            //   profession: 'Unemployed',
-            //   status: 'Не в розыске',
-            // },
-          ],
+          users: [],
         },
         searchByName: {
           name: '',
@@ -302,7 +345,7 @@
                 vehicle = vehiclePlates.toString()
               })
 
-              if (vehicles.length == 0) {
+              if (vehicles.length === 0) {
                 vehicle = 'Нет данных'
               }
 
@@ -317,8 +360,7 @@
               properties.forEach(item => {
                 propertyAdresses.push(item.name)
                 property = propertyAdresses.toString()
-              });
-
+              })
 
               let suspect = {
                 steamID,
@@ -329,7 +371,7 @@
                 phone,
                 vehicle,
                 profession,
-                property
+                property,
               }
 
               match.push(suspect)
@@ -341,8 +383,9 @@
             } else {
               self.snack('top', 'error')
             }
-
-          }))
+          }
+          )
+          )
       },
       findByPhone () {
         let self = this
@@ -356,7 +399,7 @@
             let vehiclesData = vehicles.data
             let propertiesData = properties.data
 
-            let phones = users.filter(item => {
+            let phones = usersData.filter(item => {
               if (phone) {
                 return item.phone_number === phone
               }
@@ -381,7 +424,7 @@
                 vehicle = vehiclePlates.toString()
               })
 
-              if (vehicles.length == 0) {
+              if (vehicles.length === 0) {
                 vehicle = 'Нет данных'
               }
 
@@ -396,8 +439,7 @@
               properties.forEach(item => {
                 propertyAdresses.push(item.name)
                 property = propertyAdresses.toString()
-              });
-
+              })
 
               let suspect = {
                 steamID,
@@ -408,7 +450,7 @@
                 phone,
                 vehicle,
                 profession,
-                property
+                property,
               }
 
               match.push(suspect)
@@ -420,8 +462,9 @@
             } else {
               self.snack('top', 'error')
             }
-
-          }))
+          }
+          )
+          )
       },
       snack (...args) {
         console.log(args)

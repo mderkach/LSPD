@@ -126,7 +126,45 @@
             :headers="mostWanted.headers"
             :items="mostWanted.items"
             :items-per-page="5"
-          />
+          >
+            <template v-slot:item.action="{ user }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="my-1"
+                    color="error"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon
+                      small
+                    >
+                      mdi-new-box
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Новая запись</span>
+              </v-tooltip>
+              <v-divider />
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="my-1"
+                    color="warning"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon
+                      small
+                    >
+                      mdi-alert
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Установить статус</span>
+              </v-tooltip>
+            </template>
+          </v-data-table>
         </material-card>
       </v-col>
       <v-col
@@ -186,34 +224,46 @@
         mostWanted: {
           headers: [
             {
+              align: 'center',
               sortable: false,
               text: 'ID',
               value: 'id',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Имя',
               value: 'name',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Фамилия',
               value: 'surname',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Возраст',
               value: 'age',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Номер телефона',
               value: 'phone',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Статус',
               value: 'status',
+            },
+            {
+              align: 'center',
+              sortable: false,
+              text: 'Действия',
+              value: 'action',
             },
           ],
           items: [],
@@ -300,7 +350,7 @@
         this.list[index] = !this.list[index]
       },
       getUsers () {
-        return axios.get('http://194.87.144.130:3000/api/users')
+        return axios.get('http://194.87.144.130:3000/api/users?_size=100')
       },
       getVehicles () {
         return axios.get('http://194.87.144.130:3000/api/owned_vehicles')
@@ -310,7 +360,7 @@
       },
       getMostWanted () {
         let mwlist = this.mostWanted.items
-        axios.get('http://194.87.144.130:3000/api/users')
+        axios.get('http://194.87.144.130:3000/api/users?_size=100')
           .then(function (response) {
             let responseData = response
             responseData.data.forEach((item, index) => {
@@ -378,7 +428,7 @@
                 vehicle = vehiclePlates.toString()
               })
 
-              if (vehicles.length == 0) {
+              if (vehicles.length === 0) {
                 vehicle = 'Нет данных'
               }
 
@@ -393,8 +443,7 @@
               properties.forEach(item => {
                 propertyAdresses.push(item.name)
                 property = propertyAdresses.toString()
-              });
-
+              })
 
               let suspect = {
                 steamID,
@@ -405,7 +454,7 @@
                 phone,
                 vehicle,
                 profession,
-                property
+                property,
               }
 
               match.push(suspect)
@@ -419,8 +468,9 @@
             } else {
               self.snack('top', 'error')
             }
-
-          }))
+          }
+          )
+          )
       },
       findByPhone () {
         let self = this
@@ -434,7 +484,7 @@
             let vehiclesData = vehicles.data
             let propertiesData = properties.data
 
-            let phones = users.filter(item => {
+            let phones = usersData.filter(item => {
               if (phone) {
                 return item.phone_number === phone
               }
@@ -459,7 +509,7 @@
                 vehicle = vehiclePlates.toString()
               })
 
-              if (vehicles.length == 0) {
+              if (vehicles.length === 0) {
                 vehicle = 'Нет данных'
               }
 
@@ -474,8 +524,7 @@
               properties.forEach(item => {
                 propertyAdresses.push(item.name)
                 property = propertyAdresses.toString()
-              });
-
+              })
 
               let suspect = {
                 steamID,
@@ -486,7 +535,7 @@
                 phone,
                 vehicle,
                 profession,
-                property
+                property,
               }
 
               match.push(suspect)
@@ -500,8 +549,9 @@
             } else {
               self.snack('top', 'error')
             }
-
-          }))
+          }
+          )
+          )
       },
       snack (...args) {
         console.log(args)
