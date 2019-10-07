@@ -554,7 +554,6 @@
           )
       },
       snack (...args) {
-        console.log(args)
         this.top = false
         this.bottom = false
         this.left = false

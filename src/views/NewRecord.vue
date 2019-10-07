@@ -30,7 +30,7 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="lastname"
+                  v-model="surname"
                   label="Фамилия"
                   outlined
                   color="#27f"
@@ -143,7 +143,7 @@
     data () {
       return {
         name: '',
-        lastname: '',
+        surname: '',
         age: '',
         violation: '',
         term: '',
@@ -158,7 +158,7 @@
         let self = this
         axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
           name: self.name,
-          lastname: self.lastname,
+          surname: self.surname,
           age: self.age,
           violation: self.violation,
           term: self.term,

@@ -126,14 +126,15 @@
             :items="foundedUsers.users"
             hide-default-footer
           >
-            <template v-slot:item.action="{ user }">
+            <template v-slot:item.action="{ item }">
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="my-1"
+                    class="set-criminalrecord"
                     color="error"
                     dark
                     v-on="on"
+                    @click="criminalRecord(item)"
                   >
                     <v-icon
                       small
@@ -148,7 +149,7 @@
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="my-1"
+                    class="set-status"
                     color="warning"
                     dark
                     v-on="on"
@@ -273,6 +274,11 @@
           name: '',
           surname: '',
         },
+        criminalUser: {
+          name: '',
+          age: '',
+          surname: '',
+        },
         searchByPhone: {
           phone: '',
         },
@@ -296,7 +302,7 @@
     },
     methods: {
       getUsers () {
-        return axios.get('http://194.87.144.130:3000/api/users')
+        return axios.get('http://194.87.144.130:3000/api/users?_size=100')
       },
       getVehicles () {
         return axios.get('http://194.87.144.130:3000/api/owned_vehicles')
@@ -480,6 +486,18 @@
         this.color = args[args.length - 1]
 
         this.snackbar = true
+      },
+      criminalRecord (item) {
+        this.criminalUser = Object.assign({}, [item.name, item.surname, item.age])
+
+        this.$store.commit('SET_CRIMINALRECORD', this.criminalUser)
+        if (Object.keys(this.criminalUser).length) {
+          this.$router.push({
+            name: 'Новая запись',
+          })
+        } else {
+          this.snack('top', 'error')
+        }
       },
     },
   }
