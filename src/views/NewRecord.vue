@@ -206,15 +206,24 @@
         get () {
           return this.$store.state.criminalRecordUserData[0]
         },
+        set (value) {
+          this.$store.commit('SET_CRIMINALRECORD_NAME', value)
+        },
       },
       surname: {
         get () {
           return this.$store.state.criminalRecordUserData[1]
         },
+        set (value) {
+          this.$store.commit('SET_CRIMINALRECORD_SURNAME', value)
+        },
       },
       age: {
         get () {
           return this.$store.state.criminalRecordUserData[2]
+        },
+        set (value) {
+          this.$store.commit('SET_CRIMINALRECORD_AGE', value)
         },
       },
     },
