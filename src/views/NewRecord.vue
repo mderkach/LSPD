@@ -259,27 +259,25 @@
           .then(response => {
             let fineData = response.data
             fineData.forEach(item => {
-              let amountData = {
-                id: item.id,
-                label: item.label,
-                amount: item.amount,
-              }
               self.violation_types.push(item.label)
-              self.violation_fine_amounts.push(amountData)
+              self.violation_fine_amounts.push(item)
             })
           })
       },
       sumFineTypes (item) {
         let currentVioaltion = item
-        let amounts = this.violation_fine_amounts
-        let currentAmount = this.fine_amount
-        amounts.forEach(item => {
-          if (item.label == currentVioaltion[currentVioaltion.length - 1]) {
-            // let updatedAmount = currentAmount + item.amount
-            // console.log('amount :' + item.amount, 'updated:' + updatedAmount)
-            this.fine_amount += item.amount
-          }
+        let amounts = []
+        currentVioaltion.forEach(item => {
+          let matchedViolations = this.violation_fine_amounts.filter(violation => {
+            if (violation.label === item) {
+              return violation.amount
+            }
+          })
+          matchedViolations.forEach(item => {
+            amounts.push(item.amount)
+          })
         })
+        this.fine_amount = amounts.reduce((a, b) => a + b, 0)
       },
       snack (...args) {
         this.top = false
