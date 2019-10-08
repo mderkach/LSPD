@@ -46,7 +46,7 @@
             {
               sortable: false,
               text: 'Фамилия',
-              value: 'lastname',
+              value: 'surname',
             },
             {
               sortable: false,

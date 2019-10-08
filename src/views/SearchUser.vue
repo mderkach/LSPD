@@ -175,7 +175,7 @@
         :left="left"
         :right="right"
         :top="top"
-        :timeout="900000"
+        :timeout="4000"
         dark
       >
         <v-icon
@@ -302,7 +302,7 @@
     },
     methods: {
       getUsers () {
-        return axios.get('http://194.87.144.130:3000/api/users?_size=100')
+        return axios.get('http://194.87.144.130:3000/api/users?_size=64')
       },
       getVehicles () {
         return axios.get('http://194.87.144.130:3000/api/owned_vehicles')

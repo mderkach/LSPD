@@ -350,7 +350,7 @@
         this.list[index] = !this.list[index]
       },
       getUsers () {
-        return axios.get('http://194.87.144.130:3000/api/users?_size=100')
+        return axios.get('http://194.87.144.130:3000/api/users?_size=64')
       },
       getVehicles () {
         return axios.get('http://194.87.144.130:3000/api/owned_vehicles')
