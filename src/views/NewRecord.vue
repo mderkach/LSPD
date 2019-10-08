@@ -63,6 +63,7 @@
                   small-chips
                   hint="Выберите одно или несколько"
                   persistent-hint
+                  @change="sumFineTypes"
                 />
               </v-col>
               <v-col
@@ -267,6 +268,18 @@
               self.violation_fine_amounts.push(amountData)
             })
           })
+      },
+      sumFineTypes (item) {
+        let currentVioaltion = item
+        let amounts = this.violation_fine_amounts
+        let currentAmount = this.fine_amount
+        amounts.forEach(item => {
+          if (item.label == currentVioaltion[currentVioaltion.length - 1]) {
+            // let updatedAmount = currentAmount + item.amount
+            // console.log('amount :' + item.amount, 'updated:' + updatedAmount)
+            this.fine_amount += item.amount
+          }
+        })
       },
       snack (...args) {
         this.top = false
