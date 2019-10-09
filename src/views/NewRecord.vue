@@ -63,7 +63,7 @@
                   small-chips
                   hint="Выберите одно или несколько"
                   persistent-hint
-                  @change="sumFineTypes"
+                  @change="sumFineTypesAndTems"
                 />
               </v-col>
               <v-col
@@ -75,6 +75,8 @@
                   outlined
                   color="#27f"
                   clearable
+                  hint="Впишите срок, в зависимости от подсказки по суммарным минимальным и максимальным срокам за совершенные нарушения"
+                  persistent-hint
                 />
               </v-col>
               <v-col
@@ -253,20 +255,29 @@
             })
           })
       },
-      sumFineTypes (item) {
+      sumFineTypesAndTems (item) {
         let currentVioaltion = item
         let amounts = []
+        let minTerms = []
+        let maxTerms = []
         currentVioaltion.forEach(item => {
           let matchedViolations = this.violation_fine_amounts.filter(violation => {
             if (violation.label === item) {
-              return violation.amount
+              return violation
             }
           })
           matchedViolations.forEach(item => {
             amounts.push(item.amount)
+            minTerms.push(item.detention_min)
+            maxTerms.push(item.detention_max)
           })
         })
         this.fine_amount = amounts.reduce((a, b) => a + b, 0)
+        if (minTerms.length !== 0 && maxTerms.length !== 0) {
+          this.term = 'от ' + minTerms.reduce((a, b) => a + b, 0) + ' до ' + maxTerms.reduce((a, b) => a + b)
+        } else {
+          this.term = 0
+        }
       },
     },
   }
