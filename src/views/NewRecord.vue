@@ -71,7 +71,7 @@
               >
                 <v-text-field
                   v-model="term"
-                  label="Срок"
+                  :label="term_placeholder"
                   outlined
                   color="#27f"
                   clearable
@@ -88,6 +88,8 @@
                   outlined
                   color="#27f"
                   clearable
+                  hint="Формат: дд.мм.ггг"
+                  persistent-hint
                 />
               </v-col>
               <v-col
@@ -132,8 +134,7 @@
               >
                 <v-btn
                   block
-                  color="#27f"
-                  dark
+                  color="accent"
                   @click="submitRecord"
                 >
                   Добавить
@@ -151,7 +152,6 @@
         :right="right"
         :top="top"
         :timeout="4000"
-        dark
       >
         <v-icon
           color="white"
@@ -185,6 +185,7 @@
         violation_types: [],
         violation_fine_amounts: [],
         term: '',
+        term_placeholder: 'Срок',
         date: '',
         department: '',
         fine_amount: 0,
@@ -220,6 +221,7 @@
     },
     mounted () {
       this.getFineTypes()
+      this.getDate()
     },
     methods: {
       submitRecord () {
@@ -274,10 +276,15 @@
         })
         this.fine_amount = amounts.reduce((a, b) => a + b, 0)
         if (minTerms.length !== 0 && maxTerms.length !== 0) {
-          this.term = 'от ' + minTerms.reduce((a, b) => a + b, 0) + ' до ' + maxTerms.reduce((a, b) => a + b)
+          this.term_placeholder = 'Срок от ' + minTerms.reduce((a, b) => a + b, 0) + ' до ' + maxTerms.reduce((a, b) => a + b)
         } else {
-          this.term = 0
+          this.term_placeholder = 'Срок'
         }
+      },
+      getDate () {
+        var currentDate = new Date().toJSON()
+        var formattedDate = currentDate.slice(8, 10) + '.' + currentDate.slice(5, 7) + '.' + currentDate.slice(0, 4)
+        this.date = formattedDate
       },
     },
   }

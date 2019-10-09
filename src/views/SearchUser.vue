@@ -136,7 +136,6 @@
                   <v-btn
                     class="set-criminalrecord"
                     color="error"
-                    dark
                     v-on="on"
                     @click="criminalRecord(item)"
                   >
@@ -155,7 +154,7 @@
                   <v-btn
                     class="set-status"
                     color="warning"
-                    dark
+
                     v-on="on"
                   >
                     <v-icon
@@ -180,7 +179,6 @@
         :right="right"
         :top="top"
         :timeout="4000"
-        dark
       >
         <v-icon
           color="white"

@@ -84,6 +84,10 @@ export const findUser = {
               property = propertyAdresses.toString()
             })
 
+            if (properties.length === 0) {
+              property = 'Нет данных'
+            }
+
             let suspect = {
               steamID,
               id,

@@ -331,6 +331,7 @@
             },
           ],
         },
+        dialog: false,
       }
     },
     computed: {
