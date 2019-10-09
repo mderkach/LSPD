@@ -13,7 +13,7 @@
     name: 'CoreView',
     metaInfo () {
       return {
-        title: 'LSPD CHillOut Project',
+        title: 'LSPD ChillOut Project',
       }
     },
   }

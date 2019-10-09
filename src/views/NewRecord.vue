@@ -173,8 +173,10 @@
 
 <script>
   import axios from 'axios'
+  import { snack } from '@/mixins/snack'
 
   export default {
+    mixins: [snack],
     data () {
       return {
         violation: [],
@@ -185,21 +187,7 @@
         department: '',
         fine_amount: 0,
         description: '',
-        color: null,
-        colors: [
-          'purple',
-          'info',
-          'success',
-          'warning',
-          'error',
-        ],
         departments: ['LSPD', 'SSPD'],
-        top: true,
-        bottom: false,
-        left: false,
-        right: false,
-        snackbar: false,
-        message: false,
       }
     },
     computed: {
@@ -250,6 +238,7 @@
             self.snack('top', 'Запись успешно сохранена!', 'success')
           })
           .catch(error => {
+            console.log(error)
             self.snack('top', 'Ошибка! Данные не найдены', 'error')
           })
       },
@@ -278,20 +267,6 @@
           })
         })
         this.fine_amount = amounts.reduce((a, b) => a + b, 0)
-      },
-      snack (...args) {
-        this.top = false
-        this.bottom = false
-        this.left = false
-        this.right = false
-        this.message = false
-        for (const loc of args) {
-          this[loc] = true
-        }
-
-        this.color = args[args.length - 1]
-        this.message = args[args.length - 2]
-        this.snackbar = true
       },
     },
   }

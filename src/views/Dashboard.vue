@@ -96,6 +96,7 @@
               cols="12"
             >
               <v-text-field
+                v-model="searchByVehicle.vehicle"
                 label="Номер ТС"
               />
             </v-col>
@@ -104,7 +105,10 @@
             <v-col
               cols="12"
             >
-              <v-btn color="secondary">
+              <v-btn
+                color="secondary"
+                @click="findByVehicle"
+              >
                 Найти
               </v-btn>
             </v-col>
@@ -127,14 +131,15 @@
             :items="mostWanted.items"
             :items-per-page="5"
           >
-            <template v-slot:item.action="{ user }">
+            <template v-slot:item.action="{ item }">
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="my-1"
+                    class="set-criminalrecord"
                     color="error"
                     dark
                     v-on="on"
+                    @click="criminalRecord(item)"
                   >
                     <v-icon
                       small
@@ -149,7 +154,7 @@
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="my-1"
+                    class="set-status"
                     color="warning"
                     dark
                     v-on="on"
@@ -193,7 +198,7 @@
         :left="left"
         :right="right"
         :top="top"
-        :timeout="900000"
+        :timeout="4000"
         dark
       >
         <v-icon
@@ -202,7 +207,7 @@
         >
           mdi-bell-plus
         </v-icon>
-        <div>Ошибка! Данные не найдены</div>
+        <div>{{ message }}</div>
         <v-btn
           icon
           @click="snackbar = false"
@@ -218,7 +223,13 @@
 
 <script>
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
+  import { findUser } from '@/mixins/findUser'
+  import { snack } from '@/mixins/snack'
+  import { criminalRecord } from '@/mixins/criminalRecord'
+
   export default {
+    mixins: [findUser, snack, criminalRecord],
     data () {
       return {
         mostWanted: {
@@ -320,44 +331,26 @@
             },
           ],
         },
-        searchByName: {
-          name: '',
-          surname: '',
-        },
-        searchByPhone: {
-          phone: '',
-        },
-        color: null,
-        colors: [
-          'purple',
-          'info',
-          'success',
-          'warning',
-          'error',
-        ],
-        top: true,
-        bottom: false,
-        left: false,
-        right: false,
-        snackbar: false,
       }
+    },
+    computed: {
+      ...mapGetters(['USER']),
+    },
+    watch: {
+      USER (newUser, oldUser) {
+        if (newUser.length > 0) {
+          this.$router.push({
+            name: 'Поиск личности',
+          })
+        } else {
+          this.snack('top', 'Ошибка! Данные не найдены', 'error')
+        }
+      },
     },
     mounted () {
       this.getMostWanted()
     },
     methods: {
-      complete (index) {
-        this.list[index] = !this.list[index]
-      },
-      getUsers () {
-        return axios.get('http://194.87.144.130:3000/api/users?_size=64')
-      },
-      getVehicles () {
-        return axios.get('http://194.87.144.130:3000/api/owned_vehicles')
-      },
-      getProperties () {
-        return axios.get('http://194.87.144.130:3000/api/owned_properties')
-      },
       getMostWanted () {
         let mwlist = this.mostWanted.items
         axios.get('http://194.87.144.130:3000/api/users?_size=100')
@@ -386,186 +379,6 @@
           .catch(function (error) {
             console.log(error)
           })
-      },
-      findByName () {
-        let self = this
-        let target = this.searchByName
-        let name = target.name
-        let surname = target.surname
-        let match = []
-
-        axios.all([self.getUsers(), self.getVehicles(), self.getProperties()])
-          .then(axios.spread(function (users, vehicles, properties) {
-            let usersData = users.data
-            let vehiclesData = vehicles.data
-            let propertiesData = properties.data
-
-            let names = usersData.filter(item => {
-              if (name) {
-                return item.firstname === name
-              }
-              if (surname) {
-                return item.lastname === surname
-              }
-            })
-
-            names.forEach((item, index) => {
-              let steamID = item.identifier
-              let id = index + 1
-              let name = item.firstname
-              let surname = item.lastname
-              let age = item.dateofbirth
-              let phone = item.phone_number
-              let vehicles = vehiclesData.filter(item => {
-                if (item.owner === steamID) {
-                  return item
-                }
-              })
-              let vehiclePlates = []
-              let vehicle = ''
-              vehicles.forEach(item => {
-                vehiclePlates.push(item.plate)
-                vehicle = vehiclePlates.toString()
-              })
-
-              if (vehicles.length === 0) {
-                vehicle = 'Нет данных'
-              }
-
-              let profession = item.job
-              let properties = propertiesData.filter(item => {
-                if (item.owner === steamID) {
-                  return item
-                }
-              })
-              let propertyAdresses = []
-              let property = ''
-              properties.forEach(item => {
-                propertyAdresses.push(item.name)
-                property = propertyAdresses.toString()
-              })
-
-              let suspect = {
-                steamID,
-                id,
-                name,
-                surname,
-                age,
-                phone,
-                vehicle,
-                profession,
-                property,
-              }
-
-              match.push(suspect)
-            })
-
-            self.$store.commit('SET_USER', match)
-            if (match.length > 0) {
-              self.$router.push({
-                name: 'Поиск личности',
-              })
-            } else {
-              self.snack('top', 'error')
-            }
-          }
-          )
-          )
-      },
-      findByPhone () {
-        let self = this
-        let target = this.searchByPhone
-        let phone = target.phone
-        let match = []
-
-        axios.all([self.getUsers(), self.getVehicles(), self.getProperties()])
-          .then(axios.spread(function (users, vehicles, properties) {
-            let usersData = users.data
-            let vehiclesData = vehicles.data
-            let propertiesData = properties.data
-
-            let phones = usersData.filter(item => {
-              if (phone) {
-                return item.phone_number === phone
-              }
-            })
-
-            phones.forEach((item, index) => {
-              let steamID = item.identifier
-              let id = index + 1
-              let name = item.firstname
-              let surname = item.lastname
-              let age = item.dateofbirth
-              let phone = item.phone_number
-              let vehicles = vehiclesData.filter(item => {
-                if (item.owner === steamID) {
-                  return item
-                }
-              })
-              let vehiclePlates = []
-              let vehicle = ''
-              vehicles.forEach(item => {
-                vehiclePlates.push(item.plate)
-                vehicle = vehiclePlates.toString()
-              })
-
-              if (vehicles.length === 0) {
-                vehicle = 'Нет данных'
-              }
-
-              let profession = item.job
-              let properties = propertiesData.filter(item => {
-                if (item.owner === steamID) {
-                  return item
-                }
-              })
-              let propertyAdresses = []
-              let property = ''
-              properties.forEach(item => {
-                propertyAdresses.push(item.name)
-                property = propertyAdresses.toString()
-              })
-
-              let suspect = {
-                steamID,
-                id,
-                name,
-                surname,
-                age,
-                phone,
-                vehicle,
-                profession,
-                property,
-              }
-
-              match.push(suspect)
-            })
-
-            self.$store.commit('SET_USER', match)
-            if (match.length > 0) {
-              self.$router.push({
-                name: 'Поиск личности',
-              })
-            } else {
-              self.snack('top', 'error')
-            }
-          }
-          )
-          )
-      },
-      snack (...args) {
-        this.top = false
-        this.bottom = false
-        this.left = false
-        this.right = false
-
-        for (const loc of args) {
-          this[loc] = true
-        }
-
-        this.color = args[args.length - 1]
-
-        this.snackbar = true
       },
     },
   }
