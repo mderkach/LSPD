@@ -22,15 +22,128 @@
             <template v-slot:top>
               <v-dialog
                 v-model="dialog"
-                max-width="80vw"
+                max-width="45vw"
               >
-                <v-card>
+                <v-card class="case">
                   <v-card-title>
                     <span class="headline">Просмотр дела</span>
                   </v-card-title>
                   <v-card-text>
                     <v-container>
-                      <v-row />
+                      <v-row>
+                        <v-col cols="12">
+                          <v-row>
+                            <v-col cols="6">
+                              <img
+                                class="department-logo"
+                                :src="seal"
+                                alt=""
+                              >
+                            </v-col>
+                            <v-col
+                              cols="6"
+                            >
+                              {{ item.department }}, Criminal Case Record
+                              <v-row class="my-4">
+                                <v-col
+                                  cols="12"
+                                  style="background-color: #000; color: #fff; text-align: center"
+                                >
+                                  OFICER INFORMATION
+                                </v-col>
+                                <v-col cols="6">
+                                  Имя:
+                                </v-col>
+                                <v-col cols="6">
+                                  Фамилия:
+                                </v-col>
+                                <v-col cols="6">
+                                  Должность и звание:
+                                </v-col>
+                                <v-col cols="6">
+                                  Дата внесения в архив: <br>
+                                  {{ item.date }}
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-row>
+                            <v-col
+                              cols="12"
+                              style="background-color: #000; color: #fff; text-align: center"
+                            >
+                              CASE DETAILS
+                            </v-col>
+                            <v-col cols="6">
+                              Имя: <br>
+                              {{ item.name }}
+                            </v-col>
+                            <v-col cols="6">
+                              Фамилия:<br>
+                              {{ item.surname }}
+                            </v-col>
+                            <v-col cols="6">
+                              Возраст: <br>
+                              {{ item.age }}
+                            </v-col>
+                            <v-col cols="6">
+                              Обвинение: <br>
+                              {{ item.violation }}
+                            </v-col>
+                            <v-col cols="6">
+                              Срок заключения: <br>
+                              {{ item.term }}
+                            </v-col>
+                            <v-col cols="6">
+                              Материальное взыскание: <br>
+                              {{ item.fine_amount }}
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-row>
+                            <v-col
+                              cols="12"
+                              style="background-color: #000; color: #fff; text-align: center"
+                            >
+                              CASE DESCRIPTION
+                            </v-col>
+                            <v-col cols="12">
+                              {{ item.descr }}
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-row>
+                            <v-col
+                              cols="12"
+                              style="background-color: #000; color: #fff; text-align: center"
+                            >
+                              Действия
+                            </v-col>
+                            <v-col cols="6">
+                              <v-btn
+                                block
+                                color="warning"
+                                dark
+                              >
+                                Редактировать
+                              </v-btn>
+                            </v-col>
+                            <v-col cols="6">
+                              <v-btn
+                                block
+                                color="warning"
+                                dark
+                              >
+                                Закрыть
+                              </v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
                     </v-container>
                   </v-card-text>
                 </v-card>
@@ -115,7 +228,7 @@
           items: [],
         },
         dialog: false,
-        case: {
+        item: {
           name: '',
           surname: '',
           age: 0,
@@ -126,6 +239,7 @@
           descr: '',
           term: 0,
         },
+        seal: require('../assets/seal.png'),
       }
     },
     mounted () {
@@ -148,10 +262,25 @@
           )
       },
       showCase (item) {
-        this.case = Object.assign({}, item)
-        console.log(this.case)
+        this.item = Object.assign({}, item)
+        this.dialog = true
       },
     },
 
   }
 </script>
+
+<style lang="scss">
+.department {
+  &-logo {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.v-dialog {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+</style>
