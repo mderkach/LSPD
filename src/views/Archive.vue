@@ -22,11 +22,33 @@
             <template v-slot:top>
               <v-dialog
                 v-model="dialog"
-                max-width="45vw"
+                max-width="40vw"
               >
                 <v-card class="case">
                   <v-card-title>
-                    <span class="headline">Просмотр дела</span>
+                    <v-row>
+                      <v-col
+                        cols="6"
+                      >
+                        <span class="headline">Просмотр дела</span>
+                      </v-col>
+                      <v-col
+                        cols="6"
+                        class="text-right"
+                      >
+                        <v-btn
+                          text
+                          icon
+                          @click="close"
+                        >
+                          <v-icon
+                            small
+                          >
+                            mdi-close
+                          </v-icon>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
                   </v-card-title>
                   <v-card-text>
                     <v-container>
@@ -115,34 +137,6 @@
                             </v-col>
                           </v-row>
                         </v-col>
-                        <v-col cols="12">
-                          <v-row>
-                            <v-col
-                              cols="12"
-                              style="background-color: #000; color: #fff; text-align: center"
-                            >
-                              Действия
-                            </v-col>
-                            <v-col cols="6">
-                              <v-btn
-                                block
-                                color="warning"
-                                dark
-                              >
-                                Редактировать
-                              </v-btn>
-                            </v-col>
-                            <v-col cols="6">
-                              <v-btn
-                                block
-                                color="warning"
-                                dark
-                              >
-                                Закрыть
-                              </v-btn>
-                            </v-col>
-                          </v-row>
-                        </v-col>
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -154,6 +148,7 @@
                 <template v-slot:activator="{ on }">
                   <v-btn
                     color="accent"
+                    icon
                     v-on="on"
                     @click="showCase(item)"
                   >
@@ -177,7 +172,7 @@
 <script>
   import axios from 'axios'
   // eslint-disable-next-line
-  import { mdiFileSearchOutline } from '@mdi/js'
+  import { mdiFileSearchOutline, mdiClose } from '@mdi/js'
 
   export default {
     data () {
@@ -239,6 +234,17 @@
           descr: '',
           term: 0,
         },
+        defaultCase: {
+          name: '',
+          surname: '',
+          age: 0,
+          department: '',
+          date: '',
+          fine_amount: 0,
+          violation: '',
+          descr: '',
+          term: 0,
+        },
         seal: require('../assets/seal.png'),
       }
     },
@@ -264,6 +270,12 @@
       showCase (item) {
         this.item = Object.assign({}, item)
         this.dialog = true
+      },
+      close () {
+        this.dialog = false
+        setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultCase)
+        }, 300)
       },
     },
 

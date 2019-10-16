@@ -134,7 +134,7 @@
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="set-criminalrecord"
+                    icon
                     color="error"
                     v-on="on"
                     @click="criminalRecord(item)"
@@ -148,13 +148,11 @@
                 </template>
                 <span>Новая запись</span>
               </v-tooltip>
-              <v-divider />
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    class="set-status"
+                    icon
                     color="warning"
-
                     v-on="on"
                   >
                     <v-icon
