@@ -26,13 +26,19 @@ export const findUser = {
         axios
           .post('http://194.87.144.130:3000/dynamic', {
             query:
-              "SELECT firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle FROM users Where firstname = '" +
+              "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT status FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) AS wanted FROM users Where firstname = '" +
               name +
               "' LIMIT 0 , 10000",
           })
           .then(response => {
             response.data.forEach((object, index) => {
               object.id = index + 1
+              if (object.wanted === null) object.wanted = 'Не в розыске'
+              if (object.vehicle === null) object.vehicle = 'Нет данных'
+              if (object.property === null) object.property = 'Нет данных'
+              if (object.profession === null || object.profession === 'unemployed') object.profession = 'Безработный'
+              if (object.profession === 'offpolice') object.profession = 'Полицеский'
+              if (object.profession === 'offambulance') object.profession = 'Врач'
             })
             match = response.data
             this.commitData(match)
@@ -42,13 +48,19 @@ export const findUser = {
         axios
           .post('http://194.87.144.130:3000/dynamic', {
             query:
-              "SELECT firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle FROM users Where lastname = '" +
+              "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT status FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) AS wanted FROM users Where lastname = '" +
               surname +
               "' LIMIT 0 , 10000",
           })
           .then(response => {
             response.data.forEach((object, index) => {
               object.id = index + 1
+              if (object.wanted === null) object.wanted = 'Не в розыске'
+              if (object.vehicle === null) object.vehicle = 'Нет данных'
+              if (object.property === null) object.property = 'Нет данных'
+              if (object.profession === null || object.profession === 'unemployed') object.profession = 'Безработный'
+              if (object.profession === 'offpolice') object.profession = 'Полицеский'
+              if (object.profession === 'offambulance') object.profession = 'Врач'
             })
             match = response.data
             this.commitData(match)
@@ -67,11 +79,20 @@ export const findUser = {
         axios
           .post('http://194.87.144.130:3000/dynamic', {
             query:
-              "SELECT firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle FROM users Where phone_number = '" +
+              "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT status FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) AS wanted FROM users Where phone_number = '" +
               phone +
               "' LIMIT 0 , 10000",
           })
           .then(response => {
+            response.data.forEach((object, index) => {
+              object.id = index + 1
+              if (object.wanted === null) object.wanted = 'Не в розыске'
+              if (object.vehicle === null) object.vehicle = 'Нет данных'
+              if (object.property === null) object.property = 'Нет данных'
+              if (object.profession === null || object.profession === 'unemployed') object.profession = 'Безработный'
+              if (object.profession === 'offpolice') object.profession = 'Полицеский'
+              if (object.profession === 'offambulance') object.profession = 'Врач'
+            })
             match = response.data
             this.commitData(match)
           })
@@ -101,6 +122,7 @@ export const findUser = {
             match.forEach((object, index) => {
               object.id = index + 1
             })
+            match = response.data
             this.commitData(match)
           })
       } else {

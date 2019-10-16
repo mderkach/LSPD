@@ -131,6 +131,23 @@
             :items="mostWanted.items"
             :items-per-page="5"
           >
+            <template v-slot:top>
+              <v-dialog
+                v-model="dialog"
+                max-width="20vw"
+              >
+                <v-card>
+                  <v-card-title>Установите статус</v-card-title>
+                  <v-card-text>
+                    <v-select
+                      v-model="status"
+                      :items="statusItems"
+                      outlined
+                    />
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </template>
             <template v-slot:item.action="{ item }">
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -155,6 +172,7 @@
                     icon
                     color="warning"
                     v-on="on"
+                    @click="setStatus(item)"
                   >
                     <v-icon
                       small
@@ -224,9 +242,10 @@
   import { findUser } from '@/mixins/findUser'
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
+  import { setStatus } from '@/mixins/setStatus'
 
   export default {
-    mixins: [findUser, snack, criminalRecord],
+    mixins: [findUser, snack, criminalRecord, setStatus],
     data () {
       return {
         mostWanted: {
@@ -265,7 +284,7 @@
               align: 'center',
               sortable: false,
               text: 'Статус',
-              value: 'status',
+              value: 'wanted',
             },
             {
               align: 'center',
@@ -351,16 +370,16 @@
     methods: {
       getMostWanted () {
         let mwlist = this.mostWanted.items
-        axios.get('http://194.87.144.130:3000/api/users?_size=100')
+        axios.get('http://194.87.144.130:3000/api/lspd_mostwanted?_size=100')
           .then(function (response) {
             let responseData = response
             responseData.data.forEach((item, index) => {
-              let name = item.firstname
-              let surname = item.lastname
-              let age = item.dateofbirth
+              let name = item.name
+              let surname = item.surname
+              let age = item.age
               let phone = item.phone_number
               let id = index + 1
-              let status = 'Не в розыске'
+              let wanted = item.wanted
 
               let suspect = {
                 id,
@@ -368,7 +387,7 @@
                 surname,
                 age,
                 phone,
-                status,
+                wanted,
               }
 
               mwlist.push(suspect)

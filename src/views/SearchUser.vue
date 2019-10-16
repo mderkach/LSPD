@@ -130,6 +130,31 @@
             :items="foundedUsers.users"
             hide-default-footer
           >
+            <template v-slot:top>
+              <v-dialog
+                v-model="dialog"
+                max-width="20vw"
+              >
+                <v-card>
+                  <v-card-title>Установите статус</v-card-title>
+                  <v-card-text>
+                    <v-select
+                      v-model="status"
+                      :items="statusItems"
+                      outlined
+                      @change="changeStatus"
+                    />
+                    <v-btn
+                      block
+                      color="sucess"
+                      @click="saveStatus"
+                    >
+                      Установить
+                    </v-btn>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </template>
             <template v-slot:item.action="{ item }">
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -154,6 +179,7 @@
                     icon
                     color="warning"
                     v-on="on"
+                    @click="setStatus(item)"
                   >
                     <v-icon
                       small
@@ -205,9 +231,10 @@
   import { findUser } from '@/mixins/findUser'
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
+  import { setStatus } from '@/mixins/setStatus'
 
   export default {
-    mixins: [findUser, snack, criminalRecord],
+    mixins: [findUser, snack, criminalRecord, setStatus],
     data () {
       return {
         foundedUsers: {
@@ -263,7 +290,7 @@
               align: 'center',
               sortable: false,
               text: 'Статус',
-              value: 'status',
+              value: 'wanted',
             },
             {
               align: 'center',

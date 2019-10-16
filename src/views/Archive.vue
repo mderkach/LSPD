@@ -180,21 +180,25 @@
         archive: {
           headers: [
             {
+              align: 'center',
               sortable: false,
               text: 'ID',
               value: 'id',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Имя',
               value: 'name',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Фамилия',
               value: 'surname',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Возраст',
               value: 'age',
@@ -205,16 +209,19 @@
               value: 'violation',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Дата',
               value: 'date',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Ведомство',
               value: 'department',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Действия',
               value: 'action',
