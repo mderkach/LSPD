@@ -317,6 +317,7 @@
     },
     mounted () {
       this.foundedUsers.users = this.$store.getters.USER
+      console.log(this.foundedUsers)
     },
   }
 </script>

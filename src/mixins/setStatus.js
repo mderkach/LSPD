@@ -11,7 +11,7 @@ export const setStatus = {
         name: '',
         surname: '',
         age: '',
-        phone_number: '',
+        phone: '',
         wanted: '',
       },
       defaultStatus: {
@@ -19,7 +19,7 @@ export const setStatus = {
         name: '',
         surname: '',
         age: '',
-        phone_number: '',
+        phone: '',
         wanted: '',
       },
     }
@@ -31,6 +31,7 @@ export const setStatus = {
     },
     changeStatus () {
       this.userStatus.wanted = this.status
+      console.log(this.userStatus)
     },
     saveStatus () {
       let self = this
@@ -39,7 +40,7 @@ export const setStatus = {
         name: self.userStatus.name,
         surname: self.userStatus.surname,
         age: self.userStatus.age,
-        phone_number: self.userStatus.phone_number,
+        phone_number: self.userStatus.phone,
         wanted: self.userStatus.wanted,
       })
         .then(response => {
