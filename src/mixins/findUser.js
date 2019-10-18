@@ -34,12 +34,30 @@ export const findUser = {
             console.log(response.data)
             response.data.forEach((object, index) => {
               object.id = index + 1
+              switch (object.profession) {
+                case null:
+                case 'unemployed': {
+                  object.profession = 'Безработный'
+                  break
+                }
+                case 'offpolice':
+                case 'police': {
+                  object.profession = 'Полицеский'
+                  break
+                }
+                case 'offambulance':
+                case 'ambulance': {
+                  object.profession = 'Врач'
+                  break
+                }
+                case 'mechanic': {
+                  object.profession = 'Механик'
+                  break
+                }
+              }
               if (object.wanted === null) object.wanted = 'Не в розыске'
               if (object.vehicle === null) object.vehicle = 'Нет данных'
               if (object.property === null) object.property = 'Нет данных'
-              if (object.profession === null || object.profession === 'unemployed') object.profession = 'Безработный'
-              if (object.profession === 'offpolice' || object.profession === 'police') object.profession = 'Полицеский'
-              if (object.profession === 'offambulance' || object.profession === 'ambulance') object.profession = 'Врач'
             })
             match = response.data
             this.commitData(match)
@@ -121,7 +139,6 @@ export const findUser = {
               }
             })
             match.forEach((object, index) => {
-              object.id = index + 1
               object.id = index + 1
               if (object.wanted === null) object.wanted = 'Не в розыске'
               if (object.vehicle === null) object.vehicle = 'Нет данных'

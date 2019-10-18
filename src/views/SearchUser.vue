@@ -136,22 +136,47 @@
                 max-width="20vw"
               >
                 <v-card>
-                  <v-card-title>Установите статус</v-card-title>
-                  <v-card-text>
-                    <v-select
-                      v-model="status"
-                      :items="statusItems"
-                      outlined
-                      @change="changeStatus"
-                    />
-                    <v-btn
-                      block
-                      color="sucess"
-                      @click="saveStatus"
-                    >
-                      Установить
-                    </v-btn>
-                  </v-card-text>
+                  <v-container>
+                    <v-row class="align-center">
+                      <v-col cols="10">
+                        <v-card-title class="py-0">
+                          Установите статус
+                        </v-card-title>
+                      </v-col>
+                      <v-col cols="2">
+                        <v-btn
+                          text
+                          icon
+                          @click="closeDialog"
+                        >
+                          <v-icon
+                            small
+                          >
+                            mdi-close
+                          </v-icon>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-card-text>
+                          <v-select
+                            v-model="status"
+                            :items="statusItems"
+                            outlined
+                            @change="changeStatus"
+                          />
+                          <v-btn
+                            block
+                            color="sucess"
+                            @click="saveStatus"
+                          >
+                            Установить
+                          </v-btn>
+                        </v-card-text>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-card>
               </v-dialog>
             </template>
@@ -227,7 +252,7 @@
 <script>
   import { mapGetters } from 'vuex'
   // eslint-disable-next-line
-  import { mdiNewBox, mdiAlert } from '@mdi/js'
+  import { mdiNewBox, mdiAlert, mdiClose } from '@mdi/js'
   import { findUser } from '@/mixins/findUser'
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
@@ -309,15 +334,14 @@
     watch: {
       USER (newUser, oldUser) {
         if (newUser.length > 0) {
-          this.foundedUsers.users = this.$store.getters.USER
+          this.foundedUsers.users = this.$store.state.user
         } else {
           this.snack('top', 'Ошибка! Данные не найдены', 'error')
         }
       },
     },
     mounted () {
-      this.foundedUsers.users = this.$store.getters.USER
-      console.log(this.foundedUsers)
+      this.foundedUsers.users = this.$store.state.user
     },
   }
 </script>

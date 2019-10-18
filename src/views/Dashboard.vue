@@ -137,14 +137,47 @@
                 max-width="20vw"
               >
                 <v-card>
-                  <v-card-title>Установите статус</v-card-title>
-                  <v-card-text>
-                    <v-select
-                      v-model="status"
-                      :items="statusItems"
-                      outlined
-                    />
-                  </v-card-text>
+                  <v-container>
+                    <v-row class="align-center">
+                      <v-col cols="10">
+                        <v-card-title class="py-0">
+                          Установите статус
+                        </v-card-title>
+                      </v-col>
+                      <v-col cols="2">
+                        <v-btn
+                          text
+                          icon
+                          @click="closeDialog"
+                        >
+                          <v-icon
+                            small
+                          >
+                            mdi-close
+                          </v-icon>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-card-text>
+                          <v-select
+                            v-model="status"
+                            :items="statusItems"
+                            outlined
+                            @change="changeStatus"
+                          />
+                          <v-btn
+                            block
+                            color="sucess"
+                            @click="saveStatus"
+                          >
+                            Установить
+                          </v-btn>
+                        </v-card-text>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-card>
               </v-dialog>
             </template>
@@ -278,7 +311,7 @@
               align: 'center',
               sortable: false,
               text: 'Номер телефона',
-              value: 'phone',
+              value: 'phone_number',
             },
             {
               align: 'center',
@@ -372,21 +405,23 @@
         let mwlist = this.mostWanted.items
         axios.get('http://194.87.144.130:3000/api/lspd_mostwanted?_size=100')
           .then(function (response) {
-            let responseData = response
-            responseData.data.forEach((item, index) => {
+            let responseData = response.data
+            responseData.forEach((item, index) => {
+              let id = index + 1
+              let identifier = item.identifier
               let name = item.name
               let surname = item.surname
               let age = item.age
-              let phone = item.phone_number
-              let id = index + 1
+              let phone_number = item.phone_number
               let wanted = item.wanted
 
               let suspect = {
+                identifier,
                 id,
                 name,
                 surname,
                 age,
-                phone,
+                phone_number,
                 wanted,
               }
 

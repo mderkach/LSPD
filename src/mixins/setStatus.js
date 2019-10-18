@@ -31,25 +31,45 @@ export const setStatus = {
     },
     changeStatus () {
       this.userStatus.wanted = this.status
-      console.log(this.userStatus)
     },
     saveStatus () {
       let self = this
-      axios.put('http://194.87.144.130:3000/api/lspd_mostwanted', {
-        identifier: self.userStatus.identifier,
-        name: self.userStatus.name,
-        surname: self.userStatus.surname,
-        age: self.userStatus.age,
-        phone_number: self.userStatus.phone,
-        wanted: self.userStatus.wanted,
-      })
-        .then(response => {
-          self.snack('top', 'Статус успешно изменен!', 'success')
+      if (self.userStatus.wanted === 'Не в розыске') {
+        axios
+          .post('http://194.87.144.130:3000/dynamic', {
+            query:
+              "DELETE FROM lspd_mostwanted WHERE identifier = '" + self.userStatus.identifier + "'",
+          })
+          .then(response => {
+            console.log(response.data)
+            self.snack('top', 'Статус успешно изменен!', 'success')
+          })
+          .catch(error => {
+            console.log(error)
+            self.snack('top', 'Ошибка! Невозможно установить статус', 'error')
+          })
+      } else {
+        axios.put('http://194.87.144.130:3000/api/lspd_mostwanted', {
+          identifier: self.userStatus.identifier,
+          name: self.userStatus.name,
+          surname: self.userStatus.surname,
+          age: self.userStatus.age,
+          phone_number: self.userStatus.phone,
+          wanted: self.userStatus.wanted,
         })
-        .catch(error => {
-          console.log(error)
-          self.snack('top', 'Ошибка! невозможно установить статус', 'error')
-        })
+          .then(response => {
+            console.log(response.data)
+            self.snack('top', 'Статус успешно изменен!', 'success')
+          })
+          .catch(error => {
+            console.log(error)
+            self.snack('top', 'Ошибка! Невозможно установить статус', 'error')
+          })
+      }
+    },
+    closeDialog () {
+      this.dialog = false
+      this.userStatus = Object.assign({}, this.defaultStatus)
     },
   },
 }
