@@ -28,9 +28,11 @@ export const setStatus = {
     setStatus (item) {
       this.dialog = true
       this.userStatus = Object.assign({}, item)
+      console.log(this.userStatus)
     },
     changeStatus () {
       this.userStatus.wanted = this.status
+      console.log(this.userStatus)
     },
     saveStatus () {
       let self = this

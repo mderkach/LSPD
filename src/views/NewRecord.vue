@@ -134,7 +134,7 @@
               >
                 <v-btn
                   block
-                  color="accent"
+                  color="light-blue text"
                   @click="submitRecord"
                 >
                   Добавить

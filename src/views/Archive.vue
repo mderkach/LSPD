@@ -147,7 +147,7 @@
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    color="accent"
+                    color="light-blue darken-4"
                     icon
                     v-on="on"
                     @click="showCase(item)"

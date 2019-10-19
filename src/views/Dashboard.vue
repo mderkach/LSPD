@@ -35,7 +35,7 @@
                 cols="12"
               >
                 <v-btn
-                  color="secondary"
+                  color="green text"
                   @click="findByName"
                 >
                   Найти
@@ -71,7 +71,7 @@
                 cols="12"
               >
                 <v-btn
-                  color="secondary"
+                  color="green text"
                   @click="findByPhone"
                 >
                   Найти
@@ -106,7 +106,7 @@
               cols="12"
             >
               <v-btn
-                color="secondary"
+                color="green text"
                 @click="findByVehicle"
               >
                 Найти
@@ -169,7 +169,7 @@
                           />
                           <v-btn
                             block
-                            color="sucess"
+                            color="light-blue text"
                             @click="saveStatus"
                           >
                             Установить
@@ -186,7 +186,7 @@
                 <template v-slot:activator="{ on }">
                   <v-btn
                     icon
-                    color="error"
+                    color="#D50000"
                     v-on="on"
                     @click="criminalRecord(item)"
                   >
@@ -203,7 +203,7 @@
                 <template v-slot:activator="{ on }">
                   <v-btn
                     icon
-                    color="warning"
+                    color="#F57C00"
                     v-on="on"
                     @click="setStatus(item)"
                   >
@@ -311,7 +311,7 @@
               align: 'center',
               sortable: false,
               text: 'Номер телефона',
-              value: 'phone_number',
+              value: 'phone',
             },
             {
               align: 'center',
@@ -412,7 +412,7 @@
               let name = item.name
               let surname = item.surname
               let age = item.age
-              let phone_number = item.phone_number
+              let phone = item.phone_number
               let wanted = item.wanted
 
               let suspect = {
@@ -421,10 +421,9 @@
                 name,
                 surname,
                 age,
-                phone_number,
+                phone,
                 wanted,
               }
-
               mwlist.push(suspect)
             })
           })
@@ -435,3 +434,9 @@
     },
   }
 </script>
+
+<style lang="scss">
+.text {
+  color: #fff !important
+}
+</style>
