@@ -130,6 +130,7 @@
             :headers="mostWanted.headers"
             :items="mostWanted.items"
             :items-per-page="5"
+            :loading="mostWanted.loading"
           >
             <template v-slot:top>
               <v-dialog
@@ -217,6 +218,14 @@
                 <span>Установить статус</span>
               </v-tooltip>
             </template>
+            <template v-slot:no-data>
+              <v-btn
+                color="green text"
+                @click="getMostWanted"
+              >
+                Загрузить данные
+              </v-btn>
+            </template>
           </v-data-table>
         </material-card>
       </v-col>
@@ -232,10 +241,20 @@
           full-width
         >
           <v-data-table
-            :headers="fee.headers"
-            :items="fee.items"
-            hide-default-footer
-          />
+            :headers="debt.headers"
+            :items="debt.items"
+            :items-per-page="5"
+            :loading="debt.loading"
+          >
+            <template v-slot:no-data>
+              <v-btn
+                color="green text"
+                @click="getDebt"
+              >
+                Загрузить данные
+              </v-btn>
+            </template>
+          </v-data-table>
         </material-card>
       </v-col>
 
@@ -282,6 +301,7 @@
     data () {
       return {
         mostWanted: {
+          loading: false,
           headers: [
             {
               align: 'center',
@@ -311,7 +331,7 @@
               align: 'center',
               sortable: false,
               text: 'Номер телефона',
-              value: 'phone',
+              value: 'phone_number',
             },
             {
               align: 'center',
@@ -328,57 +348,53 @@
           ],
           items: [],
         },
-        fee: {
+        debt: {
+          loading: false,
           headers: [
             {
+              align: 'center',
               sortable: false,
               text: 'ID',
               value: 'id',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Имя',
               value: 'name',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Возраст',
               value: 'age',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Номер телефона',
-              value: 'phone',
+              value: 'phone_number',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Неоплаченных штрафов',
-              value: 'unpayed',
+              value: 'debt_counter',
             },
             {
+              align: 'center',
               sortable: false,
               text: 'Общая сумма',
-              value: 'total',
-            },
-          ],
-          items: [
-            {
-              id: 1,
-              name: 'Dakota Rice',
-              age: '34',
-              phone: '99-999',
-              unpayed: '2',
-              total: '10 000',
+              value: 'amount',
             },
             {
-              id: 2,
-              name: 'Dakota Rice',
-              age: '34',
-              phone: '99-999',
-              unpayed: '4',
-              total: '500',
+              align: 'center',
+              sortable: false,
+              text: 'Дата штрафа',
+              value: 'date',
             },
           ],
+          items: [],
         },
         dialog: false,
       }
@@ -393,42 +409,53 @@
             name: 'Поиск личности',
           })
         } else {
-          this.snack('top', 'Ошибка! Данные не найдены', 'error')
+          this.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
         }
       },
     },
-    mounted () {
-      this.getMostWanted()
-    },
     methods: {
       getMostWanted () {
-        let mwlist = this.mostWanted.items
+        let self = this
+        let mwlist = self.mostWanted.items
+        self.mostWanted.loading = true
         axios.get('http://194.87.144.130:3000/api/lspd_mostwanted?_size=100')
           .then(function (response) {
-            let responseData = response.data
-            responseData.forEach((item, index) => {
-              let id = index + 1
-              let identifier = item.identifier
-              let name = item.name
-              let surname = item.surname
-              let age = item.age
-              let phone = item.phone_number
-              let wanted = item.wanted
-
-              let suspect = {
-                identifier,
-                id,
-                name,
-                surname,
-                age,
-                phone,
-                wanted,
-              }
-              mwlist.push(suspect)
-            })
+            if (response.data.length !== 0) {
+              self.mostWanted.loading = false
+              response.data.forEach((item, index) => {
+                item.id = index + 1
+                mwlist.push(item)
+              })
+            } else {
+              self.mostWanted.loading = false
+              self.snack('top', 'Нет актуальных данных', '#FF9800')
+            }
           })
           .catch(function (error) {
             console.log(error)
+          })
+      },
+      getDebt () {
+        let self = this
+        let debts = this.debt.items
+        self.debt.loading = true
+        axios
+          .post('http://194.87.144.130:3000/dynamic', {
+            query:
+              "SELECT u.identifier, u.firstname AS name, u.lastname AS surname, u.phone_number, u.dateofbirth AS age, min(b.`timestamp`) AS tm, DATE_FORMAT(min(b.timestamp),'%d-%m-%Y') as date,(SELECT sum(`amount`) FROM billing WHERE u.identifier = billing.identifier AND target = 'society_police') as amount, (SELECT COUNT(identifier) FROM billing WHERE u.identifier = billing.identifier AND target = 'society_police') as debt_counter FROM users u JOIN billing b on u.identifier = b.identifier WHERE target = 'society_police' GROUP BY u.identifier HAVING tm < DATE_SUB(NOW(), INTERVAL 3 DAY)",
+          })
+          .then(response => {
+            if (response.data.length !== 0) {
+              self.debt.loading = false
+              response.data.forEach((item, index) => {
+                item.name = item.name + ' ' + item.surname
+                item.id = index + 1
+                debts.push(item)
+              })
+            } else {
+              self.debt.loading = false
+              self.snack('top', 'Нет актуальных данных', '#FF9800')
+            }
           })
       },
     },

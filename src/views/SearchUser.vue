@@ -216,6 +216,9 @@
                 <span>Установить статус</span>
               </v-tooltip>
             </template>
+            <template v-slot:no-data>
+              Нет данных. Осуществите поиск, используюя инструменты выше
+            </template>
           </v-data-table>
         </material-card>
       </v-col>
@@ -336,7 +339,7 @@
         if (newUser.length > 0) {
           this.foundedUsers.users = this.$store.state.user
         } else {
-          this.snack('top', 'Ошибка! Данные не найдены', 'error')
+          this.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
         }
       },
     },

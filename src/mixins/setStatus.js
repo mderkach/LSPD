@@ -44,11 +44,11 @@ export const setStatus = {
           })
           .then(response => {
             console.log(response.data)
-            self.snack('top', 'Статус успешно изменен!', 'success')
+            self.snack('top', 'Статус успешно изменен!', '#5cb860')
           })
           .catch(error => {
             console.log(error)
-            self.snack('top', 'Ошибка! Невозможно установить статус', 'error')
+            self.snack('top', 'Ошибка! Невозможно установить статус', '#D32F2F')
           })
       } else {
         axios.put('http://194.87.144.130:3000/api/lspd_mostwanted', {
@@ -61,11 +61,11 @@ export const setStatus = {
         })
           .then(response => {
             console.log(response.data)
-            self.snack('top', 'Статус успешно изменен!', 'success')
+            self.snack('top', 'Статус успешно изменен!', '#5cb860')
           })
           .catch(error => {
             console.log(error)
-            self.snack('top', 'Ошибка! Невозможно установить статус', 'error')
+            self.snack('top', 'Ошибка! Невозможно установить статус', '#D32F2F')
           })
       }
     },

@@ -239,11 +239,11 @@
           descr: self.description,
         })
           .then(response => {
-            self.snack('top', 'Запись успешно сохранена!', 'success')
+            self.snack('top', 'Запись успешно сохранена!', '#5cb860')
           })
           .catch(error => {
             console.log(error)
-            self.snack('top', 'Ошибка! Данные не найдены', 'error')
+            self.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
           })
       },
       getFineTypes () {

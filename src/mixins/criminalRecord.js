@@ -18,7 +18,7 @@ export const criminalRecord = {
           name: 'Новая запись',
         })
       } else {
-        this.snack('top', 'Ошибка! Данные не найдены', 'error')
+        this.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
       }
     },
   },

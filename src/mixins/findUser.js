@@ -86,7 +86,7 @@ export const findUser = {
           })
       }
       if (!name && !surname) {
-        this.snack('top', 'Может, стоит сперва ввести данные?', 'accent')
+        this.snack('top', 'Может, стоит сперва ввести данные?', '#2979FF')
       }
     },
     findByPhone () {
@@ -116,7 +116,7 @@ export const findUser = {
             this.commitData(match)
           })
       } else {
-        this.snack('top', 'Может, стоит сперва ввести данные?', 'accent')
+        this.snack('top', 'Может, стоит сперва ввести данные?', '#2979FF')
       }
     },
     findByVehicle () {
@@ -150,14 +150,14 @@ export const findUser = {
             this.commitData(match)
           })
       } else {
-        this.snack('top', 'Может, стоит сперва ввести данные?', 'accent')
+        this.snack('top', 'Может, стоит сперва ввести данные?', '#2979FF')
       }
     },
     commitData (data) {
       if (data.length > 0) {
         this.$store.commit('SET_USER', data)
       } else {
-        this.snack('top', 'Ошибка! Данные не найдены', 'error')
+        this.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
       }
     },
   },
