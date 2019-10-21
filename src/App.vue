@@ -13,3 +13,9 @@
     },
   }
 </script>
+
+<style lang="scss">
+.v-btn.text {
+  color: #fff !important
+}
+</style>

@@ -7,6 +7,7 @@ export const archive = {
       dialog: false,
       submit_delete: false,
       item: {
+        editMode: false,
         name: '',
         surname: '',
         age: 0,
@@ -19,6 +20,7 @@ export const archive = {
         term: 0,
       },
       defaultCase: {
+        editMode: false,
         name: '',
         surname: '',
         age: 0,
@@ -101,6 +103,19 @@ export const archive = {
             console.log(error)
             self.snack('top', 'Ошибка!', '#D32F2F')
           })
+    },
+    editCase (item) {
+      console.log(item)
+      item.editMode = true
+      let array = item.violation.split(',')
+      item.violation = array
+      this.item = Object.assign({}, item)
+      this.$store.commit('SET_CRIMINALRECORD', this.item)
+      if (Object.keys(this.item).length) {
+        this.$router.push({
+          name: 'Новая запись',
+        })
+      }
     },
   },
 }

@@ -9,7 +9,7 @@
       >
         <material-card
           color="#27f"
-          title="Новая запись"
+          :title="criminalRecordUserData.editMode ? 'Обновить запись' : 'Новая запись'"
           flat
           full-width
         >
@@ -19,8 +19,7 @@
                 cols="4"
               >
                 <v-text-field
-                  v-model="name"
-                  :value="name"
+                  v-model="criminalRecordUserData.name"
                   label="Имя"
                   outlined
                   color="#27f"
@@ -31,7 +30,7 @@
                 cols="4"
               >
                 <v-text-field
-                  v-model="surname"
+                  v-model="criminalRecordUserData.surname"
                   label="Фамилия"
                   outlined
                   color="#27f"
@@ -42,8 +41,8 @@
                 cols="4"
               >
                 <v-select
-                  v-model="sex"
-                  :value="sex"
+                  v-model="criminalRecordUserData.sex"
+                  :value="criminalRecordUserData.sex"
                   :items="sex_types"
                   label="Пол"
                   outlined
@@ -54,7 +53,7 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="age"
+                  v-model="criminalRecordUserData.age"
                   label="Возраст"
                   outlined
                   color="#27f"
@@ -65,7 +64,8 @@
                 cols="6"
               >
                 <v-select
-                  v-model="violation"
+                  v-model="criminalRecordUserData.violation"
+                  :vale="criminalRecordUserData.violation"
                   :items="violation_types"
                   label="Нарушение"
                   multiple
@@ -82,7 +82,7 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="term"
+                  v-model="criminalRecordUserData.term"
                   :label="term_placeholder"
                   outlined
                   color="#27f"
@@ -95,20 +95,40 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="date"
+                  v-model="criminalRecordUserData.date"
                   label="Дата"
                   outlined
                   color="#27f"
                   clearable
                   hint="Формат: дд.мм.ггг"
                   persistent-hint
-                />
+                >
+                  <template v-slot:append-outer>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          color="blue"
+                          v-on="on"
+                          @click="getDate"
+                        >
+                          <v-icon
+                            color="white"
+                            small
+                          >
+                            mdi-calendar-clock
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Установить сегодняшнюю дату</span>
+                    </v-tooltip>
+                  </template>
+                </v-text-field>
               </v-col>
               <v-col
                 cols="6"
               >
                 <v-select
-                  v-model="department"
+                  v-model="criminalRecordUserData.department"
                   :items="departments"
                   label="Ведомство"
                   color="#27f"
@@ -121,7 +141,7 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="fine_amount"
+                  v-model="criminalRecordUserData.fine_amount"
                   label="Размер взыскания"
                   outlined
                   color="#27f"
@@ -132,7 +152,7 @@
                 cols="12"
               >
                 <v-textarea
-                  v-model="description"
+                  v-model="criminalRecordUserData.descr"
                   label="Описание нарушения"
                   outlined
                   clearable
@@ -141,6 +161,8 @@
                   color="#27f"
                 />
               </v-col>
+            </v-row>
+            <v-row v-if="!criminalRecordUserData.editMode">
               <v-col
                 cols="12"
               >
@@ -150,6 +172,30 @@
                   @click="submitRecord"
                 >
                   Добавить
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col
+                cols="6"
+              >
+                <v-btn
+                  block
+                  color="light-blue text"
+                  @click="cancelRecord"
+                >
+                  Отменить
+                </v-btn>
+              </v-col>
+              <v-col
+                cols="6"
+              >
+                <v-btn
+                  block
+                  color="light-blue text"
+                  @click="updateRecord"
+                >
+                  Сохранить изменения
                 </v-btn>
               </v-col>
             </v-row>
@@ -188,94 +234,52 @@
 <script>
   import axios from 'axios'
   import { snack } from '@/mixins/snack'
+  import { criminalRecord } from '@/mixins/criminalRecord'
+  import { mapMutations, mapGetters, mapState } from 'vuex'
+  // eslint-disable-next-line
+  import { mdiCalendarClock } from '@mdi/js'
 
   export default {
-    mixins: [snack],
+    mixins: [snack, criminalRecord],
     data () {
       return {
-        editMode: false,
-        violation: [],
         violation_types: [],
         violation_fine_amounts: [],
-        term: '',
         term_placeholder: 'Срок',
-        date: '',
-        department: '',
-        fine_amount: 0,
-        description: '',
         departments: ['LSPD', 'SSPD'],
         sex_types: ['Мужчина', 'Женщина', 'Неизвестно'],
       }
     },
     computed: {
-      name: {
-        get () {
-          return this.$store.state.criminalRecordUserData.name
-        },
-        set (value) {
-          this.$store.commit('SET_CRIMINALRECORD_NAME', value)
-        },
-      },
-      surname: {
-        get () {
-          return this.$store.state.criminalRecordUserData.surname
-        },
-        set (value) {
-          this.$store.commit('SET_CRIMINALRECORD_SURNAME', value)
-        },
-      },
-      age: {
-        get () {
-          return this.$store.state.criminalRecordUserData.age
-        },
-        set (value) {
-          this.$store.commit('SET_CRIMINALRECORD_AGE', value)
-        },
-      },
-      sex: {
-        get () {
-          return this.$store.state.criminalRecordUserData.sex
-        },
-        set (value) {
-          this.$store.commit('SET_CRIMINALRECORD_SEX', value)
-        },
-      },
+      ...mapState(['criminalRecordUserData']),
+      ...mapGetters([
+        'CRIMINALRECORD_EDIT',
+        'CRIMINALRECORD_NAME',
+        'CRIMINALRECORD_SURNAME',
+        'CRIMINALRECORD_AGE',
+        'CRIMINALRECORD_VIOLATION',
+        'CRIMINALRECORD_TERM',
+        'CRIMINALRECORD_DEPARTMENT',
+        'CRIMINALRECORD_FINE_AMOUNT',
+        'CRIMINALRECORD_DESCR',
+        'CRIMINALRECORD_DATE',
+      ]),
+      ...mapMutations([
+        'SET_CRIMINALRECORD_NAME',
+        'SET_CRIMINALRECORD_SURNAME',
+        'SET_CRIMINALRECORD_AGE',
+        'SET_CRIMINALRECORD_VIOLATION',
+        'SET_CRIMINALRECORD_TERM',
+        'SET_CRIMINALRECORD_DEPARTMENT',
+        'SET_CRIMINALRECORD_FINE_AMOUNT',
+        'SET_CRIMINALRECORD_DESCR',
+        'SET_CRIMINALRECORD_DATE',
+      ]),
     },
     mounted () {
       this.getFineTypes()
-      this.getDate()
     },
     methods: {
-      submitRecord () {
-        let self = this
-        console.log(self.violation)
-        if (self.sex === 'Мужчина') {
-          self.sex_to_submit = 'm'
-        } else if (self.sex === 'Женщина') {
-          self.sex_to_submit = 'f'
-        } else {
-          self.sex_to_submit = 'Неизвестно'
-        }
-        axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
-          name: self.name,
-          surname: self.surname,
-          age: self.age,
-          sex: self.sex_to_submit,
-          violation: self.violation.toString(),
-          term: self.term,
-          date: self.date,
-          department: self.department,
-          fine_amount: self.fine_amount,
-          descr: self.description,
-        })
-          .then(response => {
-            self.snack('top', 'Запись успешно сохранена!', '#5cb860')
-          })
-          .catch(error => {
-            console.log(error)
-            self.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
-          })
-      },
       getFineTypes () {
         let self = this
         axios.get('http://194.87.144.130:3000/api/fine_types?_size=100')
@@ -314,7 +318,7 @@
       getDate () {
         var currentDate = new Date().toJSON()
         var formattedDate = currentDate.slice(8, 10) + '.' + currentDate.slice(5, 7) + '.' + currentDate.slice(0, 4)
-        this.date = formattedDate
+        this.criminalRecordUserData.date = formattedDate
       },
     },
   }

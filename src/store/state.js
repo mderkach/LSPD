@@ -3,6 +3,7 @@
 export default {
   user: [],
   criminalRecordUserData: {
+    editMode: false,
     name: '',
     surname: '',
     age: 0,

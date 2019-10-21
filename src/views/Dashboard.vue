@@ -184,40 +184,47 @@
               </v-dialog>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    color="#D50000"
-                    v-on="on"
-                    @click="criminalRecord(item)"
-                  >
-                    <v-icon
-                      small
-                    >
-                      mdi-new-box
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Новая запись</span>
-              </v-tooltip>
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    color="#F57C00"
-                    v-on="on"
-                    @click="setStatus(item)"
-                  >
-                    <v-icon
-                      small
-                    >
-                      mdi-alert
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Установить статус</span>
-              </v-tooltip>
+              <v-container>
+                <v-row
+                  class="flex-nowrap"
+                  justify="center"
+                >
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        icon
+                        color="#D50000"
+                        v-on="on"
+                        @click="criminalRecord(item)"
+                      >
+                        <v-icon
+                          small
+                        >
+                          mdi-new-box
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Новая запись</span>
+                  </v-tooltip>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        icon
+                        color="#F57C00"
+                        v-on="on"
+                        @click="setStatus(item)"
+                      >
+                        <v-icon
+                          small
+                        >
+                          mdi-alert
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Установить статус</span>
+                  </v-tooltip>
+                </v-row>
+              </v-container>
             </template>
             <template v-slot:no-data>
               <v-btn
@@ -483,9 +490,3 @@
     },
   }
 </script>
-
-<style lang="scss">
-.text {
-  color: #fff !important
-}
-</style>

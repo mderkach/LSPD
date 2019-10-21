@@ -184,7 +184,7 @@
                     </v-btn>
 
                     <v-btn
-                      color="green darken-1"
+                      color="red"
                       text
                       @click="deleteCase(item)"
                     >
@@ -226,7 +226,7 @@
                         icon
                         small
                         v-on="on"
-                        @click="showCase(item)"
+                        @click="editCase(item)"
                       >
                         <v-icon
                           small

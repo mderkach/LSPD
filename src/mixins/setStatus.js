@@ -32,7 +32,6 @@ export const setStatus = {
     },
     changeStatus () {
       this.userStatus.wanted = this.status
-      console.log(this.userStatus)
     },
     saveStatus () {
       let self = this
@@ -56,7 +55,7 @@ export const setStatus = {
           name: self.userStatus.name,
           surname: self.userStatus.surname,
           age: self.userStatus.age,
-          phone_number: self.userStatus.phone,
+          phone_number: self.userStatus.phone || self.userStatus.phone_number,
           wanted: self.userStatus.wanted,
         })
           .then(response => {
