@@ -16,7 +16,7 @@
           <v-form>
             <v-row>
               <v-col
-                cols="6"
+                cols="4"
               >
                 <v-text-field
                   v-model="name"
@@ -28,7 +28,7 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                cols="4"
               >
                 <v-text-field
                   v-model="surname"
@@ -36,6 +36,18 @@
                   outlined
                   color="#27f"
                   clearable
+                />
+              </v-col>
+              <v-col
+                cols="4"
+              >
+                <v-select
+                  v-model="sex"
+                  :value="sex"
+                  :items="sex_types"
+                  label="Пол"
+                  outlined
+                  color="#27f"
                 />
               </v-col>
               <v-col
@@ -181,6 +193,7 @@
     mixins: [snack],
     data () {
       return {
+        editMode: false,
         violation: [],
         violation_types: [],
         violation_fine_amounts: [],
@@ -191,12 +204,13 @@
         fine_amount: 0,
         description: '',
         departments: ['LSPD', 'SSPD'],
+        sex_types: ['Мужчина', 'Женщина', 'Неизвестно'],
       }
     },
     computed: {
       name: {
         get () {
-          return this.$store.state.criminalRecordUserData[0]
+          return this.$store.state.criminalRecordUserData.name
         },
         set (value) {
           this.$store.commit('SET_CRIMINALRECORD_NAME', value)
@@ -204,7 +218,7 @@
       },
       surname: {
         get () {
-          return this.$store.state.criminalRecordUserData[1]
+          return this.$store.state.criminalRecordUserData.surname
         },
         set (value) {
           this.$store.commit('SET_CRIMINALRECORD_SURNAME', value)
@@ -212,10 +226,18 @@
       },
       age: {
         get () {
-          return this.$store.state.criminalRecordUserData[2]
+          return this.$store.state.criminalRecordUserData.age
         },
         set (value) {
           this.$store.commit('SET_CRIMINALRECORD_AGE', value)
+        },
+      },
+      sex: {
+        get () {
+          return this.$store.state.criminalRecordUserData.sex
+        },
+        set (value) {
+          this.$store.commit('SET_CRIMINALRECORD_SEX', value)
         },
       },
     },
@@ -227,10 +249,18 @@
       submitRecord () {
         let self = this
         console.log(self.violation)
+        if (self.sex === 'Мужчина') {
+          self.sex_to_submit = 'm'
+        } else if (self.sex === 'Женщина') {
+          self.sex_to_submit = 'f'
+        } else {
+          self.sex_to_submit = 'Неизвестно'
+        }
         axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
           name: self.name,
           surname: self.surname,
           age: self.age,
+          sex: self.sex_to_submit,
           violation: self.violation.toString(),
           term: self.term,
           date: self.date,

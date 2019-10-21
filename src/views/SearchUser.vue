@@ -293,6 +293,12 @@
             {
               align: 'center',
               sortable: false,
+              text: 'Пол',
+              value: 'sex',
+            },
+            {
+              align: 'center',
+              sortable: false,
               text: 'Номер телефона',
               value: 'phone',
             },

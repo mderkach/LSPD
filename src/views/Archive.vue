@@ -39,7 +39,7 @@
                         <v-btn
                           text
                           icon
-                          @click="close"
+                          @click="close('case')"
                         >
                           <v-icon
                             small
@@ -99,12 +99,12 @@
                               CASE DETAILS
                             </v-col>
                             <v-col cols="6">
-                              Имя: <br>
-                              {{ item.name }}
+                              Имя и фамилия: <br>
+                              {{ item.name }} {{ item.surname }}
                             </v-col>
                             <v-col cols="6">
-                              Фамилия:<br>
-                              {{ item.surname }}
+                              Пол:<br>
+                              {{ item.sex }}
                             </v-col>
                             <v-col cols="6">
                               Возраст: <br>
@@ -142,25 +142,121 @@
                   </v-card-text>
                 </v-card>
               </v-dialog>
+              <v-dialog
+                v-model="submit_delete"
+                max-width="40vw"
+              >
+                <v-card>
+                  <v-card-title class="headline">
+                    Вы уверены, что хотите удалить данную запись?
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          Подтвердите удаление дела:
+                        </v-col>
+                        <v-col cols="4">
+                          Имя и фамилия: <br>
+                          {{ item.name }} {{ item.surname }}
+                        </v-col>
+                        <v-col cols="4">
+                          Обвинение: <br>
+                          {{ item.violation }}
+                        </v-col>
+                        <v-col cols="4">
+                          Дата внесения в архив: <br>
+                          {{ item.date }}
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="close('submit_delete')"
+                    >
+                      Отмена
+                    </v-btn>
+
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="deleteCase(item)"
+                    >
+                      Удалить
+                    </v-btn>
+                    <v-spacer />
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    color="light-blue darken-4"
-                    icon
-                    v-on="on"
-                    @click="showCase(item)"
-                  >
-                    <v-icon
-                      small
-                    >
-                      mdi-file-search-outline
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Просмотр дела</span>
-              </v-tooltip>
+              <v-container>
+                <v-row
+                  class="flex-nowrap"
+                  justify="center"
+                >
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="light-blue darken-4"
+                        icon
+                        small
+                        v-on="on"
+                        @click="showCase(item)"
+                      >
+                        <v-icon
+                          small
+                        >
+                          mdi-file-search-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Просмотр дела</span>
+                  </v-tooltip>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="orange darken-2"
+                        icon
+                        small
+                        v-on="on"
+                        @click="showCase(item)"
+                      >
+                        <v-icon
+                          small
+                        >
+                          mdi-file-edit-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Редактировать</span>
+                  </v-tooltip>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="red darken-2"
+                        icon
+                        small
+                        v-on="on"
+                        @click="submitDelete(item)"
+                      >
+                        <v-icon
+                          small
+                        >
+                          mdi-delete-empty-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Удалить</span>
+                  </v-tooltip>
+                </v-row>
+              </v-container>
             </template>
           </v-data-table>
         </material-card>
@@ -170,11 +266,14 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import { archive } from '@/mixins/archive'
+  import { criminalRecord } from '@/mixins/criminalRecord'
+  import { snack } from '@/mixins/snack'
   // eslint-disable-next-line
-  import { mdiFileSearchOutline, mdiClose } from '@mdi/js'
+  import { mdiFileSearchOutline, mdiFileEditOutline, mdiDeleteEmptyOutline, mdiClose } from '@mdi/js'
 
   export default {
+    mixins: [archive, criminalRecord, snack],
     data () {
       return {
         archive: {
@@ -196,6 +295,12 @@
               sortable: false,
               text: 'Фамилия',
               value: 'surname',
+            },
+            {
+              align: 'center',
+              sortable: false,
+              text: 'Пол',
+              value: 'sex',
             },
             {
               align: 'center',
@@ -229,63 +334,9 @@
           ],
           items: [],
         },
-        dialog: false,
-        item: {
-          name: '',
-          surname: '',
-          age: 0,
-          department: '',
-          date: '',
-          fine_amount: 0,
-          violation: '',
-          descr: '',
-          term: 0,
-        },
-        defaultCase: {
-          name: '',
-          surname: '',
-          age: 0,
-          department: '',
-          date: '',
-          fine_amount: 0,
-          violation: '',
-          descr: '',
-          term: 0,
-        },
         seal: require('../assets/seal.png'),
       }
     },
-    mounted () {
-      this.insertRecords()
-    },
-    methods: {
-      getRecords () {
-        return axios.get('http://194.87.144.130:3000/api/lspd_criminalrecord?_size=100')
-      },
-      insertRecords () {
-        let self = this
-        axios.all([self.getRecords()])
-          .then(axios.spread(function (recordsList) {
-            let records = recordsList.data
-            records.forEach(item => {
-              self.archive.items.push(item)
-            })
-          }
-          )
-          )
-      },
-      showCase (item) {
-        this.item = Object.assign({}, item)
-        this.dialog = true
-      },
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultCase)
-        }, 300)
-      },
-    },
-
   }
 </script>
 

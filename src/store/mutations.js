@@ -8,12 +8,15 @@ export default {
     state.criminalRecordUserData = payload
   },
   SET_CRIMINALRECORD_NAME: (state, payload) => {
-    state.criminalRecordUserData[0] = payload
+    state.criminalRecordUserData.name = payload
   },
   SET_CRIMINALRECORD_SURNAME: (state, payload) => {
-    state.criminalRecordUserData[1] = payload
+    state.criminalRecordUserData.surname = payload
   },
   SET_CRIMINALRECORD_AGE: (state, payload) => {
-    state.criminalRecordUserData[2] = payload
+    state.criminalRecordUserData.age = payload
+  },
+  SET_CRIMINALRECORD_SEX: (state, payload) => {
+    state.criminalRecordUserData.sex = payload
   },
 }

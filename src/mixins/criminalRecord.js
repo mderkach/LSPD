@@ -3,14 +3,21 @@ export const criminalRecord = {
     return {
       criminalUser: {
         name: '',
-        age: '',
         surname: '',
+        age: 0,
+        sex: 'Неизвестно',
+        department: '',
+        date: '',
+        fine_amount: 0,
+        violation: '',
+        descr: '',
+        term: 0,
       },
     }
   },
   methods: {
     criminalRecord (item) {
-      this.criminalUser = Object.assign({}, [item.name, item.surname, item.age])
+      this.criminalUser = Object.assign({}, item)
 
       this.$store.commit('SET_CRIMINALRECORD', this.criminalUser)
       if (Object.keys(this.criminalUser).length) {

@@ -131,6 +131,7 @@
             :items="mostWanted.items"
             :items-per-page="5"
             :loading="mostWanted.loading"
+            loading-text="Загрузка списка..."
           >
             <template v-slot:top>
               <v-dialog
@@ -245,6 +246,7 @@
             :items="debt.items"
             :items-per-page="5"
             :loading="debt.loading"
+            loading-text="Загрузка списка..."
           >
             <template v-slot:no-data>
               <v-btn
@@ -326,6 +328,12 @@
               sortable: false,
               text: 'Возраст',
               value: 'age',
+            },
+            {
+              align: 'center',
+              sortable: false,
+              text: 'Пол',
+              value: 'sex',
             },
             {
               align: 'center',
@@ -424,6 +432,20 @@
               self.mostWanted.loading = false
               response.data.forEach((item, index) => {
                 item.id = index + 1
+                switch (item.sex) {
+                  case 'm': {
+                    item.sex = 'Мужчина'
+                    break
+                  }
+                  case 'f': {
+                    item.sex = 'Женщина'
+                    break
+                  }
+                  default: {
+                    item.sex = 'Неизвестно'
+                    break
+                  }
+                }
                 mwlist.push(item)
               })
             } else {
