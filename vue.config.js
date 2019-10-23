@@ -2,10 +2,10 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '.' : '/',
-  productionSourceMap: true,
-  crossorigin: 'anonymous',
+  publicPath: '',
+  crossorigin: 'use-credentials',
   css: {
     sourceMap: true,
   },
+  runtimeCompiler: true,
 }
