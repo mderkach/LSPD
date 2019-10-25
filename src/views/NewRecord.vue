@@ -16,7 +16,8 @@
           <v-form>
             <v-row>
               <v-col
-                cols="4"
+                lg="4"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.name"
@@ -27,7 +28,8 @@
                 />
               </v-col>
               <v-col
-                cols="4"
+                lg="4"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.surname"
@@ -38,7 +40,8 @@
                 />
               </v-col>
               <v-col
-                cols="4"
+                lg="4"
+                cols="12"
               >
                 <v-select
                   v-model="criminalRecordUserData.sex"
@@ -50,7 +53,8 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.age"
@@ -61,7 +65,8 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-select
                   v-model="criminalRecordUserData.violation"
@@ -79,7 +84,8 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.term"
@@ -92,7 +98,8 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.date"
@@ -125,7 +132,8 @@
                 </v-text-field>
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-select
                   v-model="criminalRecordUserData.department"
@@ -138,7 +146,8 @@
                 />
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-text-field
                   v-model="criminalRecordUserData.fine_amount"
@@ -177,7 +186,8 @@
             </v-row>
             <v-row v-else>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-btn
                   block
@@ -188,7 +198,8 @@
                 </v-btn>
               </v-col>
               <v-col
-                cols="6"
+                lg="6"
+                cols="12"
               >
                 <v-btn
                   block

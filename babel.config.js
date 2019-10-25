@@ -5,7 +5,9 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   presets: [
-    '@vue/app',
+    ['@vue/app',
+      { useBuiltIns: 'entry', debug: true },
+    ],
   ],
-  plugins: removeConsolePlugin
+  plugins: removeConsolePlugin,
 }

@@ -8,7 +8,7 @@
     floating
     mobile-break-point="991"
     persistent
-    width="260"
+    width="215"
   >
     <v-list-item two-line>
       <v-list-item-avatar color="white">
