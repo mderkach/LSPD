@@ -9,6 +9,7 @@ export const criminalRecord = {
         surname: '',
         age: 0,
         sex: 'Неизвестно',
+        sex_to_submit: '',
         department: '',
         date: '',
         fine_amount: 0,
@@ -36,6 +37,7 @@ export const criminalRecord = {
     submitRecord () {
       let self = this
       let target = self.criminalRecordUserData
+      console.log(self.criminalUser, self.criminalRecordUserData)
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
       } else if (target.sex === 'Женщина') {

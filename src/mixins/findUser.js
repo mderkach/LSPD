@@ -122,7 +122,7 @@ export const findUser = {
         axios
           .post('http://194.87.144.130:3000/dynamic', {
             query:
-              "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, sex, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) FROM users Where phone_number = '" +
+              "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, sex, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) as wanted FROM users Where phone_number = '" +
               phone +
               "' LIMIT 0 , 10000",
           })

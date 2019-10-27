@@ -71,7 +71,7 @@
                                   cols="12"
                                   style="background-color: #000; color: #fff; text-align: center"
                                 >
-                                  OFICER INFORMATION
+                                  OFFICER INFORMATION
                                 </v-col>
                                 <v-col cols="6">
                                   Имя:

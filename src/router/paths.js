@@ -8,6 +8,7 @@ export default [
     path: '',
     // Relative to /src/views
     view: 'Dashboard',
+    name: 'Сводка',
   },
   {
     path: '/searchuser',

@@ -439,6 +439,7 @@
           .then(function (response) {
             if (response.data.length !== 0) {
               self.mostWanted.loading = false
+              console.log(response.data)
               response.data.forEach((item, index) => {
                 item.id = index + 1
                 switch (item.sex) {

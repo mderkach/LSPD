@@ -219,7 +219,7 @@
               </v-tooltip>
             </template>
             <template v-slot:no-data>
-              Нет данных. Осуществите поиск, используюя инструменты выше
+              Нет данных. Осуществите поиск, используя инструменты выше
             </template>
           </v-data-table>
         </material-card>

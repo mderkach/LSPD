@@ -11,6 +11,7 @@ export const setStatus = {
         name: '',
         surname: '',
         age: '',
+        sex: '',
         phone: '',
         wanted: '',
       },
@@ -19,6 +20,7 @@ export const setStatus = {
         name: '',
         surname: '',
         age: '',
+        sex: 'Неизвестно',
         phone: '',
         wanted: '',
       },
@@ -35,6 +37,14 @@ export const setStatus = {
     },
     saveStatus () {
       let self = this
+      let dbSex = ''
+      if (self.userStatus.sex === 'Мужчина') {
+        dbSex = 'm'
+      } else if (self.userStatus.sex === 'Женщина') {
+        dbSex = 'f'
+      } else {
+        dbSex = 'Неизвестно'
+      }
       if (self.userStatus.wanted === 'Не в розыске') {
         axios
           .post('http://194.87.144.130:3000/dynamic', {
@@ -55,12 +65,23 @@ export const setStatus = {
           name: self.userStatus.name,
           surname: self.userStatus.surname,
           age: self.userStatus.age,
+          sex: dbSex,
           phone_number: self.userStatus.phone || self.userStatus.phone_number,
           wanted: self.userStatus.wanted,
         })
           .then(response => {
             console.log(response.data)
+            self.dialog = false
             self.snack('top', 'Статус успешно изменен!', '#5cb860')
+
+            if (typeof self.getMostWanted === 'function') {
+              self.mostWanted.items = []
+              self.getMostWanted()
+            } else {
+              this.$router.push({
+                name: 'Сводка',
+              })
+            }
           })
           .catch(error => {
             console.log(error)
