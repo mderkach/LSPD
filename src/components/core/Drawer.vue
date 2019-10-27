@@ -119,7 +119,7 @@
     methods: {
       ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
       closeDashboard () {
-        axios.post('http://lspd_dashboard:NUIClose', JSON.stringify())
+        axios.post('http://lspd_dashboard:NUIClose', JSON.stringify({}))
       },
     },
   }
