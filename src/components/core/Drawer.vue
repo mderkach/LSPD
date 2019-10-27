@@ -43,6 +43,22 @@
         <v-list-item-title v-text="link.text" />
       </v-list-item>
     </v-list>
+
+    <template v-slot:append>
+      <v-list nav>
+        <v-list-item
+          @click="closeDashboard"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-close</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-title class="font-weight-light">
+            Закрыть
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -52,8 +68,9 @@
     mapMutations,
     mapState,
   } from 'vuex'
+  import axios from 'axios'
   // eslint-disable-next-line
-  import { mdiFolderAccount, mdiAccountCardDetails } from '@mdi/js'
+  import { mdiFolderAccount, mdiAccountCardDetails, mdiClose } from '@mdi/js'
 
   export default {
     props: {
@@ -101,6 +118,9 @@
 
     methods: {
       ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+      closeDashboard () {
+        axios.post('http://lspd_dashboard:NUIClose', JSON.stringify())
+      },
     },
   }
 </script>
