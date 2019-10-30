@@ -56,6 +56,8 @@ export const criminalRecord = {
         department: target.department,
         fine_amount: target.fine_amount,
         descr: target.descr,
+        officername: self.officer.name,
+        officersurname: self.officer.lastname,
       })
         .then(response => {
           self.snack('top', 'Запись успешно сохранена!', '#5cb860')

@@ -22,7 +22,7 @@
       <v-icon>mdi-settings</v-icon>
     </v-btn>
     <v-card>
-      <v-container grid-list-xl>
+      <v-container>
         <v-row>
           <v-col cols="12">
             <div class="text-center body-2 text-uppercase sidebar-filter">

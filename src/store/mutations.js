@@ -37,4 +37,10 @@ export default {
   SET_CRIMINALRECORD_DESCR: (state, payload) => {
     state.criminalRecordUserData.descr = payload
   },
+  SET_OFFICER_NAME: (state, payload) => {
+    state.officer.name = payload
+  },
+  SET_OFFICER_SURNAME: (state, payload) => {
+    state.officer.surname = payload
+  },
 }

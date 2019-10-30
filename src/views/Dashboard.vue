@@ -301,7 +301,7 @@
 
 <script>
   import axios from 'axios'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
   import { findUser } from '@/mixins/findUser'
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
@@ -418,6 +418,7 @@
     },
     computed: {
       ...mapGetters(['USER']),
+      ...mapState(['officer']),
     },
     watch: {
       USER (newUser, oldUser) {
@@ -429,6 +430,15 @@
           this.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
         }
       },
+    },
+    mounted () {
+      let self = this
+      let sid = self.$route.query.sessionid
+      axios.get('http://194.87.144.130:3000/api/user_sessionid/' + sid)
+        .then(response => {
+          let officer = response.data[0].identifier
+          self.getOfficer(officer)
+        })
     },
     methods: {
       getMostWanted () {
@@ -487,6 +497,22 @@
             } else {
               self.debt.loading = false
               self.snack('top', 'Нет актуальных данных', '#FF9800')
+            }
+          })
+      },
+      getOfficer (id) {
+        let self = this
+        axios.post('http://194.87.144.130:3000/dynamic', {
+          query:
+            "SELECT job, firstname, lastname FROM users Where identifier = '" + id + "'",
+        })
+          .then(response => {
+            if (response.data[0].job === 'police') {
+              console.log(response.data[0])
+              self.$store.commit('SET_OFFICER_NAME', response.data[0].firstname)
+              self.$store.commit('SET_OFFICER_SURNAME', response.data[0].lastname)
+            } else {
+              alert('error')
             }
           })
       },

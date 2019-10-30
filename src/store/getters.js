@@ -40,4 +40,10 @@ export default {
   CRIMINALRECORD_DESCR: state => {
     return state.criminalRecordUserData.descr
   },
+  OFFICER_NAME: state => {
+    return state.officer.name
+  },
+  OFFICER_SURNAME: state => {
+    return state.officer.surname
+  },
 }

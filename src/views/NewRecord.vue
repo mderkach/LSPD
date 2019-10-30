@@ -262,7 +262,7 @@
       }
     },
     computed: {
-      ...mapState(['criminalRecordUserData']),
+      ...mapState(['criminalRecordUserData', 'officer']),
       ...mapGetters([
         'CRIMINALRECORD_EDIT',
         'CRIMINALRECORD_NAME',

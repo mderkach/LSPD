@@ -9,6 +9,7 @@ export default [
     // Relative to /src/views
     view: 'Dashboard',
     name: 'Сводка',
+    props: (route) => ({ sessionid: route.query.sessionid }),
   },
   {
     path: '/searchuser',

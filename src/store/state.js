@@ -15,4 +15,8 @@ export default {
     descr: '',
     term: 0,
   },
+  officer: {
+    name: '',
+    surname: '',
+  },
 }

@@ -74,14 +74,16 @@
                                   OFFICER INFORMATION
                                 </v-col>
                                 <v-col cols="6">
-                                  Имя:
+                                  Имя: <br>
+                                  {{ item.officername }}
                                 </v-col>
                                 <v-col cols="6">
-                                  Фамилия:
+                                  Фамилия: <br>
+                                  {{ item.officersurname }}
                                 </v-col>
-                                <v-col cols="6">
+                                <!-- <v-col cols="6">
                                   Должность и звание:
-                                </v-col>
+                                </v-col> -->
                                 <v-col cols="6">
                                   Дата внесения в архив: <br>
                                   {{ item.date }}
