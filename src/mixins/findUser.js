@@ -31,7 +31,6 @@ export const findUser = {
               "' LIMIT 0 , 10000",
           })
           .then(response => {
-            console.log(response.data)
             response.data.forEach((object, index) => {
               object.id = index + 1
               switch (object.profession) {
@@ -161,7 +160,6 @@ export const findUser = {
       let target = this.searchByVehicle
       let plate = target.vehicle
       let match = []
-      console.log(plate)
       if (plate) {
         axios
           .post('http://194.87.144.130:3000/dynamic', {

@@ -434,11 +434,17 @@
     mounted () {
       let self = this
       let sid = self.$route.query.sessionid
-      axios.get('http://194.87.144.130:3000/api/user_sessionid/' + sid)
-        .then(response => {
-          let officer = response.data[0].identifier
-          self.getOfficer(officer)
-        })
+      if (sid) {
+        axios.get('http://194.87.144.130:3000/api/user_sessionid/' + sid)
+          .then(response => {
+            let officer = response.data[0].identifier
+            if (self.officer.name && self.officer.surname) {
+              console.log(self.officer.firstname && self.officer.surname)
+            } else {
+              self.getOfficer(officer)
+            }
+          })
+      }
     },
     methods: {
       getMostWanted () {

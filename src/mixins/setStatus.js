@@ -30,7 +30,6 @@ export const setStatus = {
     setStatus (item) {
       this.dialog = true
       this.userStatus = Object.assign({}, item)
-      console.log(this.userStatus)
     },
     changeStatus () {
       this.userStatus.wanted = this.status
@@ -52,7 +51,6 @@ export const setStatus = {
               "DELETE FROM lspd_mostwanted WHERE identifier = '" + self.userStatus.identifier + "'",
           })
           .then(response => {
-            console.log(response.data)
             self.snack('top', 'Статус успешно изменен!', '#5cb860')
           })
           .catch(error => {
@@ -70,7 +68,6 @@ export const setStatus = {
           wanted: self.userStatus.wanted,
         })
           .then(response => {
-            console.log(response.data)
             self.dialog = false
             self.snack('top', 'Статус успешно изменен!', '#5cb860')
 

@@ -94,7 +94,6 @@ export const archive = {
               'DELETE FROM lspd_criminalrecord WHERE (`id` = ' + item.id + ')',
           })
           .then(response => {
-            console.log(response)
             self.close('submit_delete')
             self.archive.items = []
             self.insertRecords()

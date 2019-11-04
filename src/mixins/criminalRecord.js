@@ -21,6 +21,7 @@ export const criminalRecord = {
   },
   methods: {
     criminalRecord (item) {
+      console.log(item)
       this.criminalUser.name = item.name
       this.criminalUser.surname = item.surname
       this.criminalUser.age = item.age
@@ -37,7 +38,6 @@ export const criminalRecord = {
     submitRecord () {
       let self = this
       let target = self.criminalRecordUserData
-      console.log(self.criminalUser, self.criminalRecordUserData)
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
       } else if (target.sex === 'Женщина') {
@@ -57,7 +57,7 @@ export const criminalRecord = {
         fine_amount: target.fine_amount,
         descr: target.descr,
         officername: self.officer.name,
-        officersurname: self.officer.lastname,
+        officersurname: self.officer.surname,
       })
         .then(response => {
           self.snack('top', 'Запись успешно сохранена!', '#5cb860')

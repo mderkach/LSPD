@@ -18,4 +18,10 @@
 .v-btn.text {
   color: #fff !important
 }
+html {
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 </style>
