@@ -319,7 +319,8 @@
             maxTerms.push(item.detention_max)
           })
         })
-        this.fine_amount = amounts.reduce((a, b) => a + b, 0)
+        console.log(amounts)
+        this.criminalRecordUserData.fine_amount = amounts.reduce((a, b) => a + b, 0)
         if (minTerms.length !== 0 && maxTerms.length !== 0) {
           this.term_placeholder = 'Срок от ' + minTerms.reduce((a, b) => a + b, 0) + ' до ' + maxTerms.reduce((a, b) => a + b)
         } else {
