@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { required } from 'vuelidate/lib/validators'
 
 export const criminalRecord = {
   data () {
@@ -21,7 +22,6 @@ export const criminalRecord = {
   },
   methods: {
     criminalRecord (item) {
-      console.log(item)
       this.criminalUser.name = item.name
       this.criminalUser.surname = item.surname
       this.criminalUser.age = item.age
@@ -37,6 +37,7 @@ export const criminalRecord = {
     },
     submitRecord () {
       let self = this
+      self.$v.$touch()
       let target = self.criminalRecordUserData
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
@@ -45,30 +46,36 @@ export const criminalRecord = {
       } else {
         self.sex_to_submit = 'Неизвестно'
       }
-      axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
-        name: target.name,
-        surname: target.surname,
-        age: target.age,
-        sex: self.sex_to_submit,
-        violation: target.violation.toString(),
-        term: target.term,
-        date: target.date,
-        department: target.department,
-        fine_amount: target.fine_amount,
-        descr: target.descr,
-        officername: self.officer.name,
-        officersurname: self.officer.surname,
-      })
-        .then(response => {
-          self.snack('top', 'Запись успешно сохранена!', '#5cb860')
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+        self.snack('top', 'Ошибка! Убедитесь, что поля заполнены или перезайдите в систему: возможно, не удается идентифицировать оператора', '#D32F2F')
+      } else {
+        axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
+          name: target.name,
+          surname: target.surname,
+          age: target.age,
+          sex: self.sex_to_submit,
+          violation: target.violation.toString(),
+          term: target.term,
+          date: target.date,
+          department: target.department,
+          fine_amount: target.fine_amount,
+          descr: target.descr,
+          officername: self.officer.name,
+          officersurname: self.officer.surname,
         })
-        .catch(error => {
-          console.log(error)
-          self.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
-        })
+          .then(response => {
+            self.snack('top', 'Запись успешно сохранена!', '#5cb860')
+          })
+          .catch(error => {
+            console.log(error)
+            self.snack('top', 'Ошибка! Данные не найдены', '#D32F2F')
+          })
+      }
     },
     updateRecord () {
       let self = this
+      self.$v.$touch()
       let target = self.criminalRecordUserData
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
@@ -77,18 +84,23 @@ export const criminalRecord = {
       } else {
         self.sex_to_submit = 'Неизвестно'
       }
-      axios
-      .post('http://194.87.144.130:3000/dynamic', {
-        query:
-          "UPDATE lspd_criminalrecord SET name ='" + target.name + "', surname = '" + target.surname + "', age = '" + target.age + "', sex ='" + self.sex_to_submit + "', violation ='" + target.violation.toString() + "', term ='" + target.term + "', date ='" + target.date + "', department ='" + target.department + "', fine_amount='" + target.fine_amount + "', descr='" + target.descr + "'",
-      })
-        .then(response => {
-          self.snack('top', 'Запись успешно обновлена!', '#5cb860')
-        })
-        .catch(error => {
-          console.log(error)
-          self.snack('top', 'Ошибка! Невозможно обновить данные', '#d32f2f')
-        })
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+        self.snack('top', 'Ошибка! Убедитесь, что поля заполнены или перезайдите в систему: возможно, не удается идентифицировать оператора', '#D32F2F')
+      } else {
+        axios
+          .post('http://194.87.144.130:3000/dynamic', {
+            query:
+              "UPDATE lspd_criminalrecord SET name ='" + target.name + "', surname = '" + target.surname + "', age = '" + target.age + "', sex ='" + self.sex_to_submit + "', violation ='" + target.violation.toString() + "', term ='" + target.term + "', date ='" + target.date + "', department ='" + target.department + "', fine_amount='" + target.fine_amount + "', descr='" + target.descr + "'",
+          })
+            .then(response => {
+              self.snack('top', 'Запись успешно обновлена!', '#5cb860')
+            })
+            .catch(error => {
+              console.log(error)
+              self.snack('top', 'Ошибка! Невозможно обновить данные', '#d32f2f')
+            })
+      }
     },
     cancelRecord () {
       this.criminalUser = {
@@ -109,6 +121,48 @@ export const criminalRecord = {
       this.$router.push({
         name: 'Архив',
       })
+    },
+  },
+  validations: {
+    criminalRecordUserData: {
+      name: {
+        required,
+      },
+      surname: {
+        required,
+      },
+      age: {
+        required,
+      },
+      sex: {
+        required,
+      },
+      department: {
+        required,
+      },
+      date: {
+        required,
+      },
+      fine_amount: {
+        required,
+      },
+      violation: {
+        required,
+      },
+      descr: {
+        required,
+      },
+      term: {
+        required,
+      },
+    },
+    officer: {
+      name: {
+        required,
+      },
+      surname: {
+        required,
+      },
     },
   },
 }

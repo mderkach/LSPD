@@ -63,8 +63,8 @@ export const archive = {
             }
             self.archive.items.push(item)
           })
-        }
-        )
+        },
+        ),
         )
     },
     showCase (item) {

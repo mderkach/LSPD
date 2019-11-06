@@ -13,7 +13,7 @@
           flat
           full-width
         >
-          <v-form>
+          <v-form @submit.prevent="submit">
             <v-row>
               <v-col
                 lg="4"
