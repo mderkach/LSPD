@@ -431,21 +431,6 @@
         }
       },
     },
-    mounted () {
-      let self = this
-      let sid = self.$route.query.sessionid
-      if (sid) {
-        axios.get('http://194.87.144.130:3000/api/user_sessionid/' + sid)
-          .then(response => {
-            let officer = response.data[0].identifier
-            if (self.officer.name && self.officer.surname) {
-              console.log(self.officer.firstname && self.officer.surname)
-            } else {
-              self.getOfficer(officer)
-            }
-          })
-      }
-    },
     methods: {
       getMostWanted () {
         let self = this
@@ -503,22 +488,6 @@
             } else {
               self.debt.loading = false
               self.snack('top', 'Нет актуальных данных', '#FF9800')
-            }
-          })
-      },
-      getOfficer (id) {
-        let self = this
-        axios.post('http://194.87.144.130:3000/dynamic', {
-          query:
-            "SELECT job, firstname, lastname FROM users Where identifier = '" + id + "'",
-        })
-          .then(response => {
-            if (response.data[0].job === 'police') {
-              console.log(response.data[0])
-              self.$store.commit('SET_OFFICER_NAME', response.data[0].firstname)
-              self.$store.commit('SET_OFFICER_SURNAME', response.data[0].lastname)
-            } else {
-              alert('error')
             }
           })
       },

@@ -8,7 +8,7 @@
     floating
     mobile-break-point="991"
     persistent
-    width="215"
+    :width="isAuthorised ? '215' : '100%'"
   >
     <v-list-item two-line>
       <v-list-item-avatar color="white">
@@ -19,14 +19,48 @@
         />
       </v-list-item-avatar>
 
-      <v-list-item-title class="title">
+      <v-list-item-title
+        class="title"
+      >
         LSPD
       </v-list-item-title>
     </v-list-item>
 
     <v-divider class="mx-3 mb-3" />
 
-    <v-list nav>
+    <v-col
+      v-if="!isAuthorised"
+      class="justify-center d-flex"
+      cols="12"
+    >
+      <v-btn
+        x-large
+        color="success"
+        dark
+        @click="authorise"
+      >
+        Войти в систему
+      </v-btn>
+    </v-col>
+
+    <v-list-item
+      v-if="isAuthorised"
+    >
+      <v-list-item-title>
+        Добро пожаловать, <br>
+        {{ officer.name }} {{ officer.surname }}
+      </v-list-item-title>
+    </v-list-item>
+
+    <v-divider
+      v-if="isAuthorised"
+      class="mx-3 my-3"
+    />
+
+    <v-list
+      v-if="isAuthorised"
+      nav
+    >
       <!-- Bug in Vuetify for first child of v-list not receiving proper border-radius -->
       <div />
 
@@ -69,10 +103,12 @@
     mapState,
   } from 'vuex'
   import axios from 'axios'
+  import { auth } from '@/mixins/auth'
   // eslint-disable-next-line
   import { mdiFolderAccount, mdiAccountCardDetails, mdiClose } from '@mdi/js'
 
   export default {
+    mixins: [auth],
     props: {
       opened: {
         type: Boolean,
