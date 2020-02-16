@@ -36,9 +36,9 @@ export const criminalRecord = {
       }
     },
     submitRecord () {
-      let self = this
+      const self = this
       self.$v.$touch()
-      let target = self.criminalRecordUserData
+      const target = self.criminalRecordUserData
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
       } else if (target.sex === 'Женщина') {
@@ -50,7 +50,7 @@ export const criminalRecord = {
         this.submitStatus = 'ERROR'
         self.snack('top', 'Ошибка! Убедитесь, что поля заполнены или перезайдите в систему: возможно, не удается идентифицировать оператора', '#D32F2F')
       } else {
-        axios.post('http://194.87.144.130:3000/api/lspd_criminalrecord', {
+        axios.post('http://185.186.141.22:3000/api/lspd_criminalrecord', {
           name: target.name,
           surname: target.surname,
           age: target.age,
@@ -74,9 +74,9 @@ export const criminalRecord = {
       }
     },
     updateRecord () {
-      let self = this
+      const self = this
       self.$v.$touch()
-      let target = self.criminalRecordUserData
+      const target = self.criminalRecordUserData
       if (target.sex === 'Мужчина') {
         self.sex_to_submit = 'm'
       } else if (target.sex === 'Женщина') {
@@ -89,7 +89,7 @@ export const criminalRecord = {
         self.snack('top', 'Ошибка! Убедитесь, что поля заполнены или перезайдите в систему: возможно, не удается идентифицировать оператора', '#D32F2F')
       } else {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "UPDATE lspd_criminalrecord SET name ='" + target.name + "', surname = '" + target.surname + "', age = '" + target.age + "', sex ='" + self.sex_to_submit + "', violation ='" + target.violation.toString() + "', term ='" + target.term + "', date ='" + target.date + "', department ='" + target.department + "', fine_amount='" + target.fine_amount + "', descr='" + target.descr + "'",
           })

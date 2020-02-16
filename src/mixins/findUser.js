@@ -18,13 +18,13 @@ export const findUser = {
   },
   methods: {
     findByName () {
-      let target = this.searchByName
-      let name = target.name
-      let surname = target.surname
+      const target = this.searchByName
+      const name = target.name
+      const surname = target.surname
       let match = []
       if (name) {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, job AS profession, sex, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) AS wanted FROM users Where firstname = '" +
               name +
@@ -74,7 +74,7 @@ export const findUser = {
       }
       if (surname) {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, sex, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) as wanted FROM users Where lastname = '" +
               surname +
@@ -113,13 +113,13 @@ export const findUser = {
       }
     },
     findByPhone () {
-      let target = this.searchByPhone
-      let phone = target.phone
+      const target = this.searchByPhone
+      const phone = target.phone
       let match = []
 
       if (phone) {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, sex, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) as wanted FROM users Where phone_number = '" +
               phone +
@@ -157,12 +157,12 @@ export const findUser = {
       }
     },
     findByVehicle () {
-      let target = this.searchByVehicle
-      let plate = target.vehicle
+      const target = this.searchByVehicle
+      const plate = target.vehicle
       let match = []
       if (plate) {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "SELECT identifier, firstname AS name, lastname AS surname, dateofbirth AS age, sex, job AS profession, phone_number AS phone,(SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') FROM owned_properties WHERE users.identifier = owned_properties.owner GROUP BY owned_properties.owner) AS property, (SELECT GROUP_CONCAT(DISTINCT plate ORDER BY plate ASC SEPARATOR ', ') FROM owned_vehicles WHERE job IS NULL AND (type IS NULL OR type = 'car') AND users.identifier = owned_vehicles.owner GROUP BY owned_vehicles.owner) AS vehicle, (SELECT wanted FROM lspd_mostwanted WHERE users.identifier = lspd_mostwanted.identifier) as wanted FROM users",
           })

@@ -247,20 +247,16 @@
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
   import { mapMutations, mapGetters, mapState } from 'vuex'
-  // eslint-disable-next-line
-  import { mdiCalendarClock } from '@mdi/js'
 
   export default {
     mixins: [snack, criminalRecord],
-    data () {
-      return {
-        violation_types: [],
-        violation_fine_amounts: [],
-        term_placeholder: 'Срок',
-        departments: ['LSPD', 'SSPD'],
-        sex_types: ['Мужчина', 'Женщина', 'Неизвестно'],
-      }
-    },
+    data: () => ({
+      violation_types: [],
+      violation_fine_amounts: [],
+      term_placeholder: 'Срок',
+      departments: ['LSPD', 'SSPD'],
+      sex_types: ['Мужчина', 'Женщина', 'Неизвестно'],
+    }),
     computed: {
       ...mapState(['criminalRecordUserData', 'officer']),
       ...mapGetters([
@@ -292,10 +288,10 @@
     },
     methods: {
       getFineTypes () {
-        let self = this
-        axios.get('http://194.87.144.130:3000/api/fine_types?_size=100')
+        const self = this
+        axios.get('http://185.186.141.22:3000/api/fine_types?_size=100')
           .then(response => {
-            let fineData = response.data
+            const fineData = response.data
             fineData.forEach(item => {
               self.violation_types.push(item.label)
               self.violation_fine_amounts.push(item)
@@ -303,12 +299,12 @@
           })
       },
       sumFineTypesAndTems (item) {
-        let currentVioaltion = item
-        let amounts = []
-        let minTerms = []
-        let maxTerms = []
+        const currentVioaltion = item
+        const amounts = []
+        const minTerms = []
+        const maxTerms = []
         currentVioaltion.forEach(item => {
-          let matchedViolations = this.violation_fine_amounts.filter(violation => {
+          const matchedViolations = this.violation_fine_amounts.filter(violation => {
             if (violation.label === item) {
               return violation
             }

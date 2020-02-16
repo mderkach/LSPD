@@ -256,8 +256,6 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // eslint-disable-next-line
-  import { mdiNewBox, mdiAlert, mdiClose } from '@mdi/js'
   import { findUser } from '@/mixins/findUser'
   import { snack } from '@/mixins/snack'
   import { criminalRecord } from '@/mixins/criminalRecord'
@@ -265,80 +263,78 @@
 
   export default {
     mixins: [findUser, snack, criminalRecord, setStatus],
-    data () {
-      return {
-        foundedUsers: {
-          headers: [
-            {
-              align: 'center',
-              sortable: false,
-              text: 'ID',
-              value: 'id',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Имя',
-              value: 'name',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Фамилия',
-              value: 'surname',
-            },
-            {
-              sortable: false,
-              text: 'Возраст',
-              value: 'age',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Пол',
-              value: 'sex',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Номер телефона',
-              value: 'phone',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Номер ТС',
-              value: 'vehicle',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Собственность',
-              value: 'property',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Профессия',
-              value: 'profession',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Статус',
-              value: 'wanted',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Действия',
-              value: 'action',
-            },
-          ],
-          users: [],
-        },
-      }
-    },
+    data: () => ({
+      foundedUsers: {
+        headers: [
+          {
+            align: 'center',
+            sortable: false,
+            text: 'ID',
+            value: 'id',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Имя',
+            value: 'name',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Фамилия',
+            value: 'surname',
+          },
+          {
+            sortable: false,
+            text: 'Возраст',
+            value: 'age',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Пол',
+            value: 'sex',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Номер телефона',
+            value: 'phone',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Номер ТС',
+            value: 'vehicle',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Собственность',
+            value: 'property',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Профессия',
+            value: 'profession',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Статус',
+            value: 'wanted',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Действия',
+            value: 'action',
+          },
+        ],
+        users: [],
+      },
+    }),
     computed: {
       ...mapGetters(['USER']),
     },

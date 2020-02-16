@@ -39,13 +39,13 @@ export const archive = {
   },
   methods: {
     getRecords () {
-      return axios.get('http://194.87.144.130:3000/api/lspd_criminalrecord?_size=100')
+      return axios.get('http://185.186.141.22:3000/api/lspd_criminalrecord?_size=100')
     },
     insertRecords () {
-      let self = this
+      const self = this
       axios.all([self.getRecords()])
         .then(axios.spread(recordsList => {
-          let records = recordsList.data
+          const records = recordsList.data
           records.forEach(item => {
             switch (item.sex) {
               case 'm': {
@@ -87,9 +87,9 @@ export const archive = {
       this.submit_delete = true
     },
     deleteCase (item) {
-      let self = this
+      const self = this
       axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               'DELETE FROM lspd_criminalrecord WHERE (`id` = ' + item.id + ')',
           })
@@ -106,7 +106,7 @@ export const archive = {
     editCase (item) {
       console.log(item)
       item.editMode = true
-      let array = item.violation.split(',')
+      const array = item.violation.split(',')
       item.violation = array
       this.item = Object.assign({}, item)
       this.$store.commit('SET_CRIMINALRECORD', this.item)

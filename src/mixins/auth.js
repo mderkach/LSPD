@@ -20,14 +20,14 @@ export const auth = {
   },
   methods: {
     authorise () {
-      let self = this
-      let sid = self.$route.query.sessionid
+      const self = this
+      const sid = self.$route.query.sessionid
       if (sid) {
-        axios.get('http://194.87.144.130:3000/api/user_sessionid/' + sid, {
+        axios.get('http://185.186.141.22:3000/api/user_sessionid/' + sid, {
           headers: { 'Cache-Control': 'no-cache' },
         })
           .then(response => {
-            let officer = response.data[0].identifier
+            const officer = response.data[0].identifier
             if (self.officer.name && self.officer.surname) {
               console.log(self.officer.firstname && self.officer.surname)
             } else {
@@ -37,8 +37,8 @@ export const auth = {
       }
     },
     getOfficer (id) {
-      let self = this
-      axios.post('http://194.87.144.130:3000/dynamic', {
+      const self = this
+      axios.post('http://185.186.141.22:3000/dynamic', {
         query:
           "SELECT job, firstname, lastname FROM users Where identifier = '" + id + "'",
       })

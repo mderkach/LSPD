@@ -309,113 +309,111 @@
 
   export default {
     mixins: [findUser, snack, criminalRecord, setStatus],
-    data () {
-      return {
-        mostWanted: {
-          loading: false,
-          headers: [
-            {
-              align: 'center',
-              sortable: false,
-              text: 'ID',
-              value: 'id',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Имя',
-              value: 'name',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Фамилия',
-              value: 'surname',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Возраст',
-              value: 'age',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Пол',
-              value: 'sex',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Номер телефона',
-              value: 'phone_number',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Статус',
-              value: 'wanted',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Действия',
-              value: 'action',
-            },
-          ],
-          items: [],
-        },
-        debt: {
-          loading: false,
-          headers: [
-            {
-              align: 'center',
-              sortable: false,
-              text: 'ID',
-              value: 'id',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Имя',
-              value: 'name',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Возраст',
-              value: 'age',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Номер телефона',
-              value: 'phone_number',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Неоплаченных штрафов',
-              value: 'debt_counter',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Общая сумма',
-              value: 'amount',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Дата штрафа',
-              value: 'date',
-            },
-          ],
-          items: [],
-        },
-        dialog: false,
-      }
-    },
+    data: () => ({
+      mostWanted: {
+        loading: false,
+        headers: [
+          {
+            align: 'center',
+            sortable: false,
+            text: 'ID',
+            value: 'id',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Имя',
+            value: 'name',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Фамилия',
+            value: 'surname',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Возраст',
+            value: 'age',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Пол',
+            value: 'sex',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Номер телефона',
+            value: 'phone_number',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Статус',
+            value: 'wanted',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Действия',
+            value: 'action',
+          },
+        ],
+        items: [],
+      },
+      debt: {
+        loading: false,
+        headers: [
+          {
+            align: 'center',
+            sortable: false,
+            text: 'ID',
+            value: 'id',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Имя',
+            value: 'name',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Возраст',
+            value: 'age',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Номер телефона',
+            value: 'phone_number',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Неоплаченных штрафов',
+            value: 'debt_counter',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Общая сумма',
+            value: 'amount',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Дата штрафа',
+            value: 'date',
+          },
+        ],
+        items: [],
+      },
+      dialog: false,
+    }),
     computed: {
       ...mapGetters(['USER']),
       ...mapState(['officer']),
@@ -433,10 +431,10 @@
     },
     methods: {
       getMostWanted () {
-        let self = this
-        let mwlist = self.mostWanted.items
+        const self = this
+        const mwlist = self.mostWanted.items
         self.mostWanted.loading = true
-        axios.get('http://194.87.144.130:3000/api/lspd_mostwanted?_size=100')
+        axios.get('http://185.186.141.22:3000/api/lspd_mostwanted?_size=100')
           .then(function (response) {
             if (response.data.length !== 0) {
               self.mostWanted.loading = false
@@ -469,11 +467,11 @@
           })
       },
       getDebt () {
-        let self = this
-        let debts = this.debt.items
+        const self = this
+        const debts = this.debt.items
         self.debt.loading = true
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "SELECT u.identifier, u.firstname AS name, u.lastname AS surname, u.phone_number, u.dateofbirth AS age, min(b.`timestamp`) AS tm, DATE_FORMAT(min(b.timestamp),'%d-%m-%Y') as date,(SELECT sum(`amount`) FROM billing WHERE u.identifier = billing.identifier AND target = 'society_police') as amount, (SELECT COUNT(identifier) FROM billing WHERE u.identifier = billing.identifier AND target = 'society_police') as debt_counter FROM users u JOIN billing b on u.identifier = b.identifier WHERE target = 'society_police' GROUP BY u.identifier HAVING tm < DATE_SUB(NOW(), INTERVAL 3 DAY)",
           })

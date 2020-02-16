@@ -4,9 +4,7 @@
     fluid
   >
     <v-row justify="center">
-      <v-col
-        cols="12"
-      >
+      <v-col cols="12">
         <material-card
           color="red darken-3"
           title="Архив"
@@ -27,9 +25,7 @@
                 <v-card class="case">
                   <v-card-title>
                     <v-row>
-                      <v-col
-                        cols="6"
-                      >
+                      <v-col cols="6">
                         <span class="headline">Просмотр дела</span>
                       </v-col>
                       <v-col
@@ -41,9 +37,7 @@
                           icon
                           @click="close('case')"
                         >
-                          <v-icon
-                            small
-                          >
+                          <v-icon small>
                             mdi-close
                           </v-icon>
                         </v-btn>
@@ -59,12 +53,10 @@
                               <img
                                 class="department-logo"
                                 :src="seal"
-                                alt=""
+                                alt
                               >
                             </v-col>
-                            <v-col
-                              cols="6"
-                            >
+                            <v-col cols="6">
                               {{ item.department }}, Criminal Case Record
                               <v-row class="my-4">
                                 <v-col
@@ -74,18 +66,21 @@
                                   OFFICER INFORMATION
                                 </v-col>
                                 <v-col cols="6">
-                                  Имя: <br>
+                                  Имя:
+                                  <br>
                                   {{ item.officername }}
                                 </v-col>
                                 <v-col cols="6">
-                                  Фамилия: <br>
+                                  Фамилия:
+                                  <br>
                                   {{ item.officersurname }}
                                 </v-col>
                                 <!-- <v-col cols="6">
                                   Должность и звание:
-                                </v-col> -->
+                                </v-col>-->
                                 <v-col cols="6">
-                                  Дата внесения в архив: <br>
+                                  Дата внесения в архив:
+                                  <br>
                                   {{ item.date }}
                                 </v-col>
                               </v-row>
@@ -101,27 +96,33 @@
                               CASE DETAILS
                             </v-col>
                             <v-col cols="6">
-                              Имя и фамилия: <br>
+                              Имя и фамилия:
+                              <br>
                               {{ item.name }} {{ item.surname }}
                             </v-col>
                             <v-col cols="6">
-                              Пол:<br>
+                              Пол:
+                              <br>
                               {{ item.sex }}
                             </v-col>
                             <v-col cols="6">
-                              Возраст: <br>
+                              Возраст:
+                              <br>
                               {{ item.age }}
                             </v-col>
                             <v-col cols="6">
-                              Обвинение: <br>
+                              Обвинение:
+                              <br>
                               {{ item.violation }}
                             </v-col>
                             <v-col cols="6">
-                              Срок заключения: <br>
+                              Срок заключения:
+                              <br>
                               {{ item.term }}
                             </v-col>
                             <v-col cols="6">
-                              Материальное взыскание: <br>
+                              Материальное взыскание:
+                              <br>
                               {{ item.fine_amount }}
                             </v-col>
                           </v-row>
@@ -160,15 +161,18 @@
                           Подтвердите удаление дела:
                         </v-col>
                         <v-col cols="4">
-                          Имя и фамилия: <br>
+                          Имя и фамилия:
+                          <br>
                           {{ item.name }} {{ item.surname }}
                         </v-col>
                         <v-col cols="4">
-                          Обвинение: <br>
+                          Обвинение:
+                          <br>
                           {{ item.violation }}
                         </v-col>
                         <v-col cols="4">
-                          Дата внесения в архив: <br>
+                          Дата внесения в архив:
+                          <br>
                           {{ item.date }}
                         </v-col>
                       </v-row>
@@ -212,9 +216,7 @@
                         v-on="on"
                         @click="showCase(item)"
                       >
-                        <v-icon
-                          small
-                        >
+                        <v-icon small>
                           mdi-file-search-outline
                         </v-icon>
                       </v-btn>
@@ -230,9 +232,7 @@
                         v-on="on"
                         @click="editCase(item)"
                       >
-                        <v-icon
-                          small
-                        >
+                        <v-icon small>
                           mdi-file-edit-outline
                         </v-icon>
                       </v-btn>
@@ -248,9 +248,7 @@
                         v-on="on"
                         @click="submitDelete(item)"
                       >
-                        <v-icon
-                          small
-                        >
+                        <v-icon small>
                           mdi-delete-empty-outline
                         </v-icon>
                       </v-btn>
@@ -271,74 +269,70 @@
   import { archive } from '@/mixins/archive'
   import { criminalRecord } from '@/mixins/criminalRecord'
   import { snack } from '@/mixins/snack'
-  // eslint-disable-next-line
-  import { mdiFileSearchOutline, mdiFileEditOutline, mdiDeleteEmptyOutline, mdiClose } from '@mdi/js'
 
   export default {
     mixins: [archive, criminalRecord, snack],
-    data () {
-      return {
-        archive: {
-          headers: [
-            {
-              align: 'center',
-              sortable: false,
-              text: 'ID',
-              value: 'id',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Имя',
-              value: 'name',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Фамилия',
-              value: 'surname',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Пол',
-              value: 'sex',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Возраст',
-              value: 'age',
-            },
-            {
-              sortable: false,
-              text: 'Нарушение',
-              value: 'violation',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Дата',
-              value: 'date',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Ведомство',
-              value: 'department',
-            },
-            {
-              align: 'center',
-              sortable: false,
-              text: 'Действия',
-              value: 'action',
-            },
-          ],
-          items: [],
-        },
-        seal: require('../assets/seal.png'),
-      }
-    },
+    data: () => ({
+      archive: {
+        headers: [
+          {
+            align: 'center',
+            sortable: false,
+            text: 'ID',
+            value: 'id',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Имя',
+            value: 'name',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Фамилия',
+            value: 'surname',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Пол',
+            value: 'sex',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Возраст',
+            value: 'age',
+          },
+          {
+            sortable: false,
+            text: 'Нарушение',
+            value: 'violation',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Дата',
+            value: 'date',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Ведомство',
+            value: 'department',
+          },
+          {
+            align: 'center',
+            sortable: false,
+            text: 'Действия',
+            value: 'action',
+          },
+        ],
+        items: [],
+      },
+      seal: require('../assets/seal.png'),
+    }),
   }
 </script>
 

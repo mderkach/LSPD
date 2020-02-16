@@ -35,7 +35,7 @@ export const setStatus = {
       this.userStatus.wanted = this.status
     },
     saveStatus () {
-      let self = this
+      const self = this
       let dbSex = ''
       if (self.userStatus.sex === 'Мужчина') {
         dbSex = 'm'
@@ -46,7 +46,7 @@ export const setStatus = {
       }
       if (self.userStatus.wanted === 'Не в розыске') {
         axios
-          .post('http://194.87.144.130:3000/dynamic', {
+          .post('http://185.186.141.22:3000/dynamic', {
             query:
               "DELETE FROM lspd_mostwanted WHERE identifier = '" + self.userStatus.identifier + "'",
           })
@@ -58,7 +58,7 @@ export const setStatus = {
             self.snack('top', 'Ошибка! Невозможно установить статус', '#D32F2F')
           })
       } else {
-        axios.put('http://194.87.144.130:3000/api/lspd_mostwanted', {
+        axios.put('http://185.186.141.22:3000/api/lspd_mostwanted', {
           identifier: self.userStatus.identifier,
           name: self.userStatus.name,
           surname: self.userStatus.surname,
