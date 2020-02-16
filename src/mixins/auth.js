@@ -2,11 +2,9 @@ import axios from 'axios'
 import { mapMutations, mapGetters, mapState } from 'vuex'
 
 export const auth = {
-  data () {
-    return {
-      isAuthorised: false,
-    }
-  },
+  data: () => ({
+    isAuthorised: false,
+  }),
   computed: {
     ...mapState(['officer']),
     ...mapGetters([

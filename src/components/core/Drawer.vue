@@ -5,10 +5,10 @@
     app
     color="#27f"
     dark
-    floating
     mobile-break-point="991"
     persistent
     :width="isAuthorised ? '215' : '100%'"
+    height="100%"
   >
     <v-list-item two-line>
       <v-list-item-avatar color="white">
@@ -104,8 +104,6 @@
   } from 'vuex'
   import axios from 'axios'
   import { auth } from '@/mixins/auth'
-  // eslint-disable-next-line
-  import { mdiFolderAccount, mdiAccountCardDetails, mdiClose } from '@mdi/js'
 
   export default {
     mixins: [auth],
@@ -160,3 +158,9 @@
     },
   }
 </script>
+
+<style lang="scss">
+#app-drawer {
+  position: absolute;
+}
+</style>

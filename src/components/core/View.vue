@@ -11,10 +11,8 @@
 <script>
   export default {
     name: 'CoreView',
-    metaInfo () {
-      return {
-        title: 'LSPD ChillOut Project',
-      }
-    },
+    metaInfo: () => ({
+      title: 'LSPD ChillOut Project',
+    }),
   }
 </script>

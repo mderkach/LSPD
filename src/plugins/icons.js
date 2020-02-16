@@ -6,6 +6,8 @@ import {
   mdiCalendarClock,
   mdiNewBox,
   mdiAlert,
+  mdiFolderAccount,
+  mdiAccountCardDetails,
 } from '@mdi/js'
 
 export default {
@@ -17,5 +19,7 @@ export default {
     mdiCalendarClock,
     mdiNewBox,
     mdiAlert,
+    mdiFolderAccount,
+    mdiAccountCardDetails,
   },
 }
