@@ -11,13 +11,13 @@
     height="100%"
   >
     <v-list-item two-line>
-      <v-list-item-avatar color="white">
+      <!-- <v-list-item-avatar color="white">
         <v-img
-          src="../../../src/assets/LSPD.png"
+          :src="require('@/assets/LSPD.png')"
           height="100%"
           contain
         />
-      </v-list-item-avatar>
+      </v-list-item-avatar> -->
 
       <v-list-item-title
         class="title"
@@ -97,7 +97,6 @@
 </template>
 
 <script>
-// Utilities
   import {
     mapMutations,
     mapState,
@@ -137,7 +136,6 @@
         },
       ],
     }),
-
     computed: {
       ...mapState('app', ['color']),
       inputValue: {
@@ -149,7 +147,6 @@
         },
       },
     },
-
     methods: {
       ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
       closeDashboard () {

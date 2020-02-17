@@ -46,6 +46,7 @@ export const archive = {
       axios.all([self.getRecords()])
         .then(axios.spread(recordsList => {
           const records = recordsList.data
+          console.log(records)
           records.forEach(item => {
             switch (item.sex) {
               case 'm': {

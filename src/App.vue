@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <img
+      class="monitor"
       src="./assets/monitor.png"
       alt=""
     >
@@ -20,10 +21,17 @@
     mounted () {
       if (process.env.NODE_ENV !== 'production') {
         console.log('development mode')
-        document.querySelector('#app').classList.add('active')
+        document.querySelector('body').classList.add('active')
       } else {
+        console.log('mounted dashboard')
         window.addEventListener('message', event => {
           console.log(event.data)
+          if (event.data.show_dashboard === 1) {
+            document.querySelector('body').classList.add('active')
+          }
+          if (event.data.show_dashboard === 0) {
+            document.querySelector('body').classList.remove('active')
+          }
         })
       }
     },
@@ -42,11 +50,15 @@ html {
 }
 
 body {
-  display: flex;
+  display: none;
   width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
+
+  &.active {
+    display: flex;
+  }
 }
 
 .wrapper {
@@ -56,7 +68,8 @@ body {
   padding: 14px;
   border-radius: 15px;
   overflow: hidden;
-  img {
+
+  .monitor {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -65,12 +78,7 @@ body {
   }
 
   #app {
-    display: none;
     height: 100%;
-
-    &.active {
-      display: flex;
-    }
 
     .v-application--wrap {
       min-height: 100%
