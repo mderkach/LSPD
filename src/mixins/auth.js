@@ -19,8 +19,8 @@ export const auth = {
     const self = this
      window.addEventListener('message', event => {
        if (process.env.NODE_ENV !== 'production') {
-         self.$store.commit('SET_OFFICER_NAME', 'suk')
-         self.$store.commit('SET_OFFICER_SURNAME', 'blet')
+         self.$store.commit('SET_OFFICER_NAME', 'John')
+         self.$store.commit('SET_OFFICER_SURNAME', 'Connor')
        } else {
          if (event.data.job === 'police') {
            self.$store.commit(
